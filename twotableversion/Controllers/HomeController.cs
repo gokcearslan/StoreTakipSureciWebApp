@@ -1,9 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using System.Diagnostics;
 using twotableversion.Data;
 using twotableversion.Models;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using System.IO;
+using System.Linq;
 
 namespace twotableversion.Controllers
 {
@@ -204,11 +209,11 @@ namespace twotableversion.Controllers
                 {
                     _dbforlastversionContext.Uygulamalars.Remove(existingData);
                     _dbforlastversionContext.SaveChanges();
-                    // TempData["DeleteStatus"] = 1;
+                    //TempData["DeleteStatus"] = 1;
                 }
                 else
                 {
-                    // TempData["DeleteStatus"] = 0; // Data not found
+                    /*TempData["DeleteStatus"] = 0;*/ // Data not found
                 }
             }
             catch (Exception ex)
@@ -219,7 +224,57 @@ namespace twotableversion.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public IActionResult ExportToExcel(string selectedTakvimId, string selectedUygulamaAdi)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
+            if (int.TryParse(selectedTakvimId, out int takvimId))
+            {
+                var data = _dbforlastversionContext.Uygulamalars
+                    .Where(row => row.TakvimId == takvimId && row.UygulamaAdı == selectedUygulamaAdi)
+                    .ToList();
+
+                // Create a new Excel package
+                using (var package = new ExcelPackage())
+                {
+                    // Add a worksheet
+                    var worksheet = package.Workbook.Worksheets.Add("Uygulama Data");
+
+                    // Set column headers
+                    var properties = typeof(Uygulamalar).GetProperties();
+                    for (int i = 0; i < properties.Length; i++)
+                    {
+                        worksheet.Cells[1, i + 1].Value = properties[i].Name;
+                    }
+
+                    // Fill in the data
+                    for (int row = 0; row < data.Count; row++)
+                    {
+                        for (int col = 0; col < properties.Length; col++)
+                        {
+                            worksheet.Cells[row + 2, col + 1].Value = properties[col].GetValue(data[row]);
+                        }
+                    }
+
+                    // Auto-fit columns
+                    worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+
+                    // Set a file name for the Excel file
+                    var fileName = "UygulamaData.xlsx";
+
+                    // Stream the Excel file to the client
+                    var stream = new MemoryStream(package.GetAsByteArray());
+                    return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                }
+            }
+            else
+            {
+                // Handle the case where 'selectedTakvimId' is not a valid integer.
+                // You can return an error message or perform appropriate error handling.
+                return View("ErrorView"); // Replace "ErrorView" with the name of your error view.
+            }
+        }
         public IActionResult ResultAction()
         {
             // Implement the logic to display results or perform actions based on the selected values.

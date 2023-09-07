@@ -118,3 +118,8 @@ else
 {
     <tr colspan="21">No record in table</tr>
 }
+<form method="post" asp-action="ExportToExcel">
+    <input type="hidden" name="selectedTakvimId" value="@ViewBag.SelectedTakvimId" />
+    <input type="hidden" name="selectedUygulamaAdi" value="@ViewBag.SelectedUygulamaAdi" />
+    <button type="submit" class="btn btn-primary">Export to Excel</button>
+</form>
