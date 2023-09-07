@@ -1,0 +1,145 @@
+﻿@model twotableversion.Models.UygulamalarModel
+@using (Html.BeginForm("Edit", "Home", FormMethod.Post))
+{
+    <table width="40%">
+        @*<tr>
+    <td style=" width:20%">Takvim ID:</td>
+    <td style="width:80%">
+    @Html.TextBoxFor(m=>m.TakvimId,new{@class="form-control"})
+    </td>
+    </tr>*@
+        <tr>
+            <td style=" width:20%">Etki Alanı:</td>
+            <td style="width:80%">
+                @Html.TextBoxFor(m=>m.EtkiAlanı,new{@class="form-control"})
+            </td>
+        </tr>
+
+        <tr>
+            <td style=" width:20%">Talep/Bug:</td>
+            <td style="width:80%">
+                @Html.TextBoxFor(m=>m.TalepBug,new{@class="form-control"})
+            </td>
+        </tr>
+
+        <tr>
+            <td style=" width:20%">Talep Adı:</td>
+            <td style="width:80%">
+                @Html.TextBoxFor(m=>m.TalepAdi,new{@class="form-control"})
+            </td>
+        </tr>
+
+        <tr>
+            <td style=" width:20%">Bulgu Durumu:</td>
+            <td style="width:80%">
+                @Html.TextBoxFor(m=>m.BulguDurumu,new{@class="form-control"})
+            </td>
+        </tr>
+
+
+        <tr>
+            <td style=" width:20%">Segment:</td>
+            <td style="width:80%">
+                @Html.TextBoxFor(m=>m.Segment,new{@class="form-control"})
+            </td>
+        </tr>
+
+        <tr>
+            <td style=" width:20%">KKTYE Gönderildi mi?:</td>
+            <td style="width:80%">
+                @Html.TextBoxFor(m=>m.KKTYeGonderilme,new{@class="form-control"})
+            </td>
+        </tr>
+
+        <tr>
+            <td style=" width:20%">KKT Onayı Alındı mı:</td>
+            <td style="width:80%">
+                @Html.TextBoxFor(m=>m.KKTOnayi,new{@class="form-control"})
+            </td>
+        </tr>
+
+        <tr>
+            <td style=" width:20%">Notlar:</td>
+            <td style="width:80%">
+                @Html.TextBoxFor(m=>m.Notlar,new{@class="form-control"})
+            </td>
+        </tr>
+
+        <tr>
+            <td style=" width:20%">İlgili Analist:</td>
+            <td style="width:80%">
+                @Html.TextBoxFor(m=>m.Analist,new{@class="form-control"})
+            </td>
+        </tr>
+
+        <tr>
+            <td style=" width:20%">Merge Durumu IOS:</td>
+            <td style="width:80%">
+                @Html.TextBoxFor(m=>m.mergeIOS,new{@class="form-control"})
+            </td>
+        </tr>
+
+        <tr>
+            <td style=" width:20%">Merge Durumu Android:</td>
+            <td style="width:80%">
+                @Html.TextBoxFor(m=>m.mergeAND,new{@class="form-control"})
+            </td>
+        </tr>
+
+        <tr>
+            <td style=" width:20%">Merge Durumu BE:</td>
+            <td style="width:80%">
+                @Html.TextBoxFor(m=>m.mergeBE,new{@class="form-control"})
+            </td>
+        </tr>
+
+        <tr>
+            <td style=" width:20%">İlgili IOS Developer:</td>
+            <td style="width:80%">
+                @Html.TextBoxFor(m=>m.IOSDev,new{@class="form-control"})
+            </td>
+        </tr>
+
+        <tr>
+            <td style=" width:20%">İlgili Android Developer:</td>
+            <td style="width:80%">
+                @Html.TextBoxFor(m=>m.ANDDev,new{@class="form-control"})
+            </td>
+        </tr>
+
+        <tr>
+            <td style=" width:20%">İlgili Be Developer:</td>
+            <td style="width:80%">
+                @Html.TextBoxFor(m=>m.BEDev,new{@class="form-control"})
+            </td>
+        </tr>
+
+        <tr>
+            <td style=" width:20%"> BE Taşıma Katmanları:</td>
+            <td style="width:80%">
+                @Html.TextBoxFor(m=>m.TasimaKatmanlari,new{@class="form-control"})
+            </td>
+        </tr>
+
+        <tr>
+            <td style=" width:20%">Geçiş Zorunluluğu:</td>
+            <td style="width:80%">
+                @Html.TextBoxFor(m=>m.GecisZorunluluğu,new{@class="form-control"})
+            </td>
+        </tr>
+
+    @*    senaryo key olduğu için gösterilmesin editlenmiyor çünkü*@
+
+       @* <tr>
+            <td style=" width:20%">UI/API Senaryo ID:</td>
+            <td style="width:80%">
+                @Html.TextBoxFor(m=>m.SenaryoID,new{@class="form-control"})
+            </td>
+        </tr>*@
+
+    </table>
+
+
+    @*<input type="submit" value="Save"/>*@
+    <input type="submit" value="Edit" />
+}

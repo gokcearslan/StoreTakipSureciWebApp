@@ -1,0 +1,122 @@
+﻿@model twotableversion.Models.UygulamalarModel
+@{
+    ViewData["Title"] = "Privacy Policy";
+}
+
+<br />
+<a href="/Home/Save">Yeni satır ekle</a>
+
+
+@if (TempData["SaveStatus"] != null)
+{
+    int status = Convert.ToInt32(TempData["SaveStatus"]);
+    if (status == 1)
+    {
+        <span class="alert alert-success">Kaydedildi</span>
+    }
+    else
+    {
+        <span class="alert alert-danger">Kaydetme Sırasında HATA! oluştu</span>
+    }
+}
+
+@if (TempData["DeleteStatus"] != null)
+{
+    int status = Convert.ToInt32(TempData["DeleteStatus"]);
+    if (status == 1)
+    {
+        <span class="alert alert-success">Silindi</span>
+    }
+    else
+    {
+        <span class="alert alert-danger">Silme Sırasında HATA! oluştu</span>
+    }
+}
+
+
+
+@using (Html.BeginForm("DisplayData", "Home", FormMethod.Post))
+{
+    <div class="form-group">
+        <label for="selectedTakvimId">Select TakvimId:</label>
+        @Html.DropDownList("selectedTakvimId", (SelectList)ViewBag.TakvimIdOptions, "Select", new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label for="selectedUygulamaAdi">Select UygulamaAdi:</label>
+        @Html.DropDownList("selectedUygulamaAdi", (SelectList)ViewBag.UygulamaAdiOptions, "Select", new { @class = "form-control" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+}
+
+@*@if (Model.UygulamaList != null && Model.UygulamaList.Count > 0)
+{
+    <h3>Filtered Results:</h3>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                  <th>Uygulama Adı</th>
+
+                <th>Takvim Id</th>
+                <th>Etki Alanı</th>
+                <th>Talep/Bug</th>
+                <th>Talep Adı</th>
+                <th>Bulgu Durumu</th>
+                <th>Segment</th>
+                <th>KKTYE Gönderildi mi?</th>
+                <th>KKTE Onayı Alındı mı?</th>
+                <th>Notlar</th>
+                <th>İlgili Analist</th>
+                <th>Merge Durumu IOS</th>
+                <th>Merge Durumu AND</th>
+                <th>Merge Durumu BE</th>
+                <th>İlgili IOS Developer</th>
+                <th>İlgili Android Developer</th>
+                <th>İlgili BE Developer</th>
+                <th>BE Taşıma Katmanları</th>
+                <th>Geçiş Zorunluluğu </th>
+                <th>UI/API Senaryo ID</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.UygulamaList)
+            {
+                <tr>
+
+                    <td>@item.UygulamaAdı</td>
+
+                    <td>@item.TakvimId</td>
+
+                    <td>@item.EtkiAlanı</td>
+                    <td>@item.TalepBug</td>
+                    <td>@item.TalepAdı</td>
+                    <td>@item.BulguDurumu</td>
+                    <td>@item.Segment</td>
+                    <td>@item.KktyeGönderİldİMİ</td>
+                    <td>@item.KktOnayiAlindiMi</td>
+                    <td>@item.Notlar</td>
+                    <td>@item.İlgiliAnalist</td>
+                    <td>@item.MergeDurumuIos</td>
+                    <td>@item.MergeDurumuAnd</td>
+                    <td>@item.MergeDurumuBe</td>
+                    <td>@item.İlgiliIosDeveloper</td>
+                    <td>@item.İlgiliAndroidDeveloper</td>
+                    <td>@item.İlgiliBeDeveloper</td>
+                    <td>@item.BeTaşımaKatmanları</td>
+                    <td>@item.GeçİşZorunluluğu</td>
+                    <td>@item.UiApiSenaryoId</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No matching results found.</p>
+}*@
+
+
+
+
