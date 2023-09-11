@@ -3,9 +3,16 @@
     ViewData["Title"] = "Privacy Policy";
 }
 
-<br />
-<a href="/Home/Save">Yeni satır ekle</a>
 
+
+<br />
+
+
+
+@using (Html.BeginForm("Save", "Home", FormMethod.Get))
+{
+    <input type="submit" style="background-color: #FFCA4F; color: white; margin-top:0px" value="Yeni satır ekle"  class="btn btn-primary" />
+}
 
 @if (TempData["SaveStatus"] != null)
 {
@@ -34,21 +41,37 @@
 }
 
 
+<div class="row" style=" background: #FFF5D5; margin-top:27px; margin-left:120px; width:400px; height:200px;">
+    @using (Html.BeginForm("DisplayData", "Home", FormMethod.Post))
+    {
+        <div class="col-md-12">
+            
+            
+            <div class="form-group" style="width:100%; height:100%;">
+                <label for="selectedTakvimId">Select TakvimId:</label>                
+                @Html.DropDownList("selectedTakvimId", (SelectList)ViewBag.TakvimIdOptions, "Select", new { @class = "form-control" })
+            </div>
 
-@using (Html.BeginForm("DisplayData", "Home", FormMethod.Post))
-{
-    <div class="form-group">
-        <label for="selectedTakvimId">Select TakvimId:</label>
-        @Html.DropDownList("selectedTakvimId", (SelectList)ViewBag.TakvimIdOptions, "Select", new { @class = "form-control" })
-    </div>
+            <div class="form-group style="width:100%; height:100%;">
+                <label for="selectedUygulamaAdi">Select UygulamaAdi:</label>
+                @Html.DropDownList("selectedUygulamaAdi", (SelectList)ViewBag.UygulamaAdiOptions, "Select", new { @class = "form-control" })
+            </div>
 
-    <div class="form-group">
-        <label for="selectedUygulamaAdi">Select UygulamaAdi:</label>
-        @Html.DropDownList("selectedUygulamaAdi", (SelectList)ViewBag.UygulamaAdiOptions, "Select", new { @class = "form-control" })
-    </div>
+           
 
-    <button type="submit" class="btn btn-primary">Submit</button>
-}
+        </div>
+    
+     
+
+        <div class="col-md-6">
+            <button type="submit" class="btn btn-primary " style="color: white; background-color: #FFCA4F; margin-top:13px; margin-right:100px;">Submit</button>
+        </div>
+    }
+
+</div>
+
+
+
 
 @*@if (Model.UygulamaList != null && Model.UygulamaList.Count > 0)
 {
@@ -115,8 +138,7 @@
 else
 {
     <p>No matching results found.</p>
-}*@
-
-
+}
+*@
 
 

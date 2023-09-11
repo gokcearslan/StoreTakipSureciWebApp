@@ -1,0 +1,16 @@
+﻿@model string
+
+@{
+    ViewData["Title"] = "Search";
+}
+
+<h2>Search</h2>
+
+@using (Html.BeginForm("Search", "Home", FormMethod.Post))
+{
+    <div class="form-group">
+        <label for="searchQuery">Search:</label>
+        <input type="text" name="searchQuery" id="searchQuery" class="form-control" placeholder="Enter your search query" />
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+}

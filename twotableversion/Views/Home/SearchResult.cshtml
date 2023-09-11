@@ -1,0 +1,82 @@
+﻿@model twotableversion.Models.UygulamalarModel
+
+@{
+    ViewData["Title"] = "Search Results";
+}
+
+<h2>Search Results</h2>
+
+<p>Search query: @ViewBag.SearchQuery</p>
+
+@if (Model != null )
+{
+    <table class="table">
+
+        <thead>
+
+            <tr>
+
+                <th>Uygulama Adı</th>
+                <th>Takvim Id</th>
+                <th>Etki Alanı</th>
+                <th>Talep/Bug</th>
+                <th>Talep Adı</th>
+                <th>Bulgu Durumu</th>
+                <th>Segment</th>
+                <th>KKTYE Gönderildi mi?</th>
+                <th>KKTE Onayı Alındı mı?</th>
+                <th>Notlar</th>
+                <th>İlgili Analist</th>
+                <th>Merge Durumu IOS</th>
+                <th>Merge Durumu AND</th>
+                <th>Merge Durumu BE</th>
+                <th>İlgili IOS Developer</th>
+                <th>İlgili Android Developer</th>
+                <th>İlgili BE Developer</th>
+                <th>BE Taşıma Katmanları</th>
+                <th>Geçiş Zorunluluğu </th>
+                <th>UI/API Senaryo ID</th>
+                <th>İşlem</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (var item in Model.AllUygulamaList)
+            {
+                <tr>
+                    <td>@item.UygulamaAdı</td>
+                    <td>@item.TakvimId</td>
+                    <td>@item.EtkiAlanı</td>
+                    <td>@item.TalepBug</td>
+                    <td>@item.TalepAdı</td>
+                    <td>@item.BulguDurumu</td>
+                    <td>@item.Segment</td>
+                    <td>@item.KktyeGönderİldİMİ</td>
+                    <td>@item.KktOnayiAlindiMi</td>
+                    <td>@item.Notlar</td>
+                    <td>@item.İlgiliAnalist</td>
+                    <td>@item.MergeDurumuIos</td>
+                    <td>@item.MergeDurumuAnd</td>
+                    <td>@item.MergeDurumuBe</td>
+                    <td>@item.İlgiliIosDeveloper</td>
+                    <td>@item.İlgiliAndroidDeveloper</td>
+                    <td>@item.İlgiliBeDeveloper</td>
+                    <td>@item.BeTaşımaKatmanları</td>
+                    <td>@item.GeçİşZorunluluğu</td>
+                    <td>@item.UiApiSenaryoId</td>
+                    <td>
+                        <a href="/Home/Edit/@item.UiApiSenaryoId">Edit</a>&nbsp;|&nbsp;
+                        <a href="/Home/Delete/@item.UiApiSenaryoId">Delete</a>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No records found.</p>
+}
+
+<a href="/Home/Search" class="btn btn-primary">Back to Search</a>

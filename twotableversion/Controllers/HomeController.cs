@@ -5,10 +5,8 @@ using OfficeOpenXml;
 using System.Diagnostics;
 using twotableversion.Data;
 using twotableversion.Models;
-using OfficeOpenXml;
-using OfficeOpenXml.Style;
-using System.IO;
-using System.Linq;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+
 
 namespace twotableversion.Controllers
 {
@@ -23,7 +21,27 @@ namespace twotableversion.Controllers
             _logger = logger;
             _dbforlastversionContext = dbforlastversionContext;
         }
+      
+        //public async Task<IActionResult> DisplayData(string SearchString)
+        //{
+        //    //return View(await _dbforlastversionContext.Uygulamalars.ToListAsync());
 
+        //    ViewData["CurrentFilter"] = SearchString;
+        //    var uygulamalar = from b in _dbforlastversionContext.Uygulamalars
+        //                      select b;
+
+        //    if(!String.IsNullOrEmpty(SearchString))
+        //    {
+        //        uygulamalar=uygulamalar.Where(b =>b.GeçİşZorunluluğu.Contains(SearchString) );
+        //    }
+        //     return View(uygulamalar);
+
+
+
+
+
+
+        //}
         public IActionResult Index()
         {
             // Retrieve distinct values for TakvimId and UygulamaAdi columns from the database
@@ -46,10 +64,8 @@ namespace twotableversion.Controllers
         [HttpPost]
         public IActionResult DisplayData(string selectedTakvimId, string selectedUygulamaAdi)
         {
-            // Convert selectedTakvimId to an integer
             if (int.TryParse(selectedTakvimId, out int takvimId))
             {
-                // Retrieve data based on the selected TakvimId and UygulamaAdi values
                 var data = _dbforlastversionContext.Uygulamalars
                     .Where(row => row.TakvimId == takvimId && row.UygulamaAdı == selectedUygulamaAdi)
                     .ToList();
@@ -58,14 +74,62 @@ namespace twotableversion.Controllers
                 ViewBag.SelectedUygulamaAdi = selectedUygulamaAdi;
 
                 return View(data);
+
+
             }
+
+
             else
             {
-                // Handle the case where 'selectedTakvimId' is not a valid integer.
-                // You can return an error message or perform appropriate error handling.
+
                 return View("ErrorView"); // Replace "ErrorView" with the name of your error view.
             }
         }
+
+
+
+
+
+        //[HttpPost]
+        //public IActionResult SearchResults(string searchQuery)
+        //{
+        //    if (!string.IsNullOrEmpty(searchQuery))
+        //    {
+        //        // Perform the search based on the searchQuery
+        //        var data = _dbforlastversionContext.Uygulamalars
+        //            .Where(row =>                     
+        //                row.TakvimId.ToString().Contains(searchQuery) ||
+        //                row.UygulamaAdı.Contains(searchQuery) ||
+        //                row.EtkiAlanı.ToLower().Contains(searchQuery) ||
+        //                row.TalepBug.ToLower().Contains(searchQuery) ||
+        //                row.TalepAdı.ToLower().Contains(searchQuery) ||
+        //                row.BulguDurumu.ToLower().Contains(searchQuery) ||
+        //                row.Segment.ToLower().Contains(searchQuery) ||
+        //                row.KktyeGönderİldİMİ.ToLower().Contains(searchQuery) ||
+        //                row.KktOnayiAlindiMi.ToLower().Contains(searchQuery) ||
+        //                row.Notlar.ToLower().Contains(searchQuery) ||
+        //                row.İlgiliAnalist.ToLower().Contains(searchQuery) ||
+        //                row.MergeDurumuIos.ToLower().Contains(searchQuery) ||
+        //                row.MergeDurumuAnd.ToLower().Contains(searchQuery) ||
+        //                row.MergeDurumuBe.ToLower().Contains(searchQuery) ||
+        //                row.İlgiliIosDeveloper.ToLower().Contains(searchQuery) ||
+        //                row.İlgiliAndroidDeveloper.ToLower().Contains(searchQuery) ||
+        //                row.İlgiliBeDeveloper.ToLower().Contains(searchQuery) ||
+        //                row.BeTaşımaKatmanları.ToLower().Contains(searchQuery) ||
+        //                row.GeçİşZorunluluğu.ToLower().Contains(searchQuery) ||
+        //                row.UiApiSenaryoId.ToString().Contains(searchQuery)
+        //            )
+        //            .ToList();
+
+        //        return View("DisplayData", data); // Display the search results using the existing DisplayData view
+        //    }
+
+        //    // Handle the case when no search query is provided
+        //    return RedirectToAction("DisplayData");
+        //}
+
+
+
 
         [HttpGet]
         public IActionResult Save()
@@ -235,20 +299,20 @@ namespace twotableversion.Controllers
                     .Where(row => row.TakvimId == takvimId && row.UygulamaAdı == selectedUygulamaAdi)
                     .ToList();
 
-                // Create a new Excel package
+
                 using (var package = new ExcelPackage())
                 {
-                    // Add a worksheet
+
                     var worksheet = package.Workbook.Worksheets.Add("Uygulama Data");
 
-                    // Set column headers
+                    // headers
                     var properties = typeof(Uygulamalar).GetProperties();
                     for (int i = 0; i < properties.Length; i++)
                     {
                         worksheet.Cells[1, i + 1].Value = properties[i].Name;
                     }
 
-                    // Fill in the data
+                    // data
                     for (int row = 0; row < data.Count; row++)
                     {
                         for (int col = 0; col < properties.Length; col++)
@@ -257,13 +321,12 @@ namespace twotableversion.Controllers
                         }
                     }
 
-                    // Auto-fit columns
+
                     worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
 
-                    // Set a file name for the Excel file
+
                     var fileName = "UygulamaData.xlsx";
 
-                    // Stream the Excel file to the client
                     var stream = new MemoryStream(package.GetAsByteArray());
                     return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
                 }
@@ -275,6 +338,169 @@ namespace twotableversion.Controllers
                 return View("ErrorView"); // Replace "ErrorView" with the name of your error view.
             }
         }
+        //[HttpGet]
+        //public IActionResult Search()
+        //{
+        //    return View();
+        //}
+        //[HttpPost]
+        //public IActionResult Search(string searchQuery)
+        //{
+        //    // Perform a search based on the search query
+        //    var data = _dbforlastversionContext.Uygulamalars
+        //        .Where(row => row.UygulamaAdı.Contains(searchQuery) ||
+        //                        row.TakvimId.ToString().Contains(searchQuery) ||
+        //                        row.EtkiAlanı.ToString().Contains(searchQuery) ||
+        //                        row.TalepBug.ToString().Contains(searchQuery) ||
+        //                        row.BulguDurumu.ToString().Contains(searchQuery) ||
+        //                        row.Segment.ToString().Contains(searchQuery) ||
+        //                        row.KktyeGönderİldİMİ.ToString().Contains(searchQuery) ||
+        //                        row.KktOnayiAlindiMi.ToString().Contains(searchQuery) ||
+        //                        row.MergeDurumuIos.ToString().Contains(searchQuery) ||
+        //                        row.MergeDurumuAnd.ToString().Contains(searchQuery) ||
+        //                        row.MergeDurumuBe.ToString().Contains(searchQuery) ||
+        //                        row.İlgiliIosDeveloper.ToString().Contains(searchQuery) ||
+        //                        row.İlgiliAndroidDeveloper.ToString().Contains(searchQuery) ||
+        //                        row.İlgiliBeDeveloper.ToString().Contains(searchQuery) ||
+        //                        row.BeTaşımaKatmanları.ToString().Contains(searchQuery) ||
+        //                        row.GeçİşZorunluluğu.ToString().Contains(searchQuery) ||
+        //                        row.UiApiSenaryoId.ToString().Contains(searchQuery)
+
+        //                        )
+
+
+
+        //        .ToList();
+
+        //    // Pass the search query and results to the view
+        //    ViewBag.SearchQuery = searchQuery;
+        //    return View("SearchResults", data);
+        //}
+        [HttpPost]
+        public IActionResult ImportFromExcel(IFormFile excelFile)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            if (excelFile != null && excelFile.Length > 0)
+            {
+                using (var stream = new MemoryStream())
+                {
+                    excelFile.CopyTo(stream);
+
+                    using (var package = new ExcelPackage(stream))
+                    {
+                        var worksheet = package.Workbook.Worksheets[0]; // Assuming the data is in the first worksheet.
+
+                        var rowCount = worksheet.Dimension.Rows;
+                        var colCount = worksheet.Dimension.Columns;
+
+                        var importedData = new List<Uygulamalar>();
+
+                        for (int row = 2; row <= rowCount; row++) // Start from the second row to skip headers.
+                        {
+                            var rowData = new Uygulamalar();
+
+                            for (int col = 1; col <= colCount; col++)
+                            {
+                                var cellValue = worksheet.Cells[row, col].Value;
+
+                                // Assuming the order of columns in the Excel file matches the Uygulamalar model.
+                                switch (col)
+                                {
+                                    case 1:
+                                        rowData.UygulamaAdı = cellValue?.ToString();
+                                        break;
+                                    case 2:
+                                        int takvimId;
+                                        if (int.TryParse(cellValue?.ToString(), out takvimId))
+                                        {
+                                            rowData.TakvimId = takvimId;
+                                        }
+                                        break;
+                                    case 3:
+                                        rowData.EtkiAlanı = cellValue?.ToString();
+                                        break;
+                                    case 4:
+                                        rowData.TalepBug = cellValue?.ToString();
+                                        break;
+                                    case 5:
+                                        rowData.BulguDurumu = cellValue?.ToString();
+                                        break;
+                                    case 6:
+                                        rowData.Segment = cellValue?.ToString();
+                                        break;
+                                    case 7:
+                                        rowData.KktyeGönderİldİMİ = cellValue?.ToString();
+                                        break;
+                                    case 8:
+                                        rowData.KktOnayiAlindiMi = cellValue?.ToString();
+                                        break;
+                                    case 9:
+                                        rowData.Notlar = cellValue?.ToString();
+                                        break;
+                                    case 10:
+                                        rowData.İlgiliAnalist = cellValue?.ToString();
+                                        break;
+                                    case 11:
+                                        rowData.MergeDurumuIos = cellValue?.ToString();
+                                        break;
+                                    case 12:
+                                        rowData.MergeDurumuAnd = cellValue?.ToString();
+                                        break;
+                                    case 13:
+                                        rowData.MergeDurumuBe = cellValue?.ToString();
+                                        break;
+                                    case 14:
+                                        rowData.İlgiliIosDeveloper = cellValue?.ToString();
+                                        break;
+                                    case 15:
+                                        rowData.İlgiliAndroidDeveloper = cellValue?.ToString();
+                                        break;
+                                    case 16:
+                                        rowData.İlgiliBeDeveloper = cellValue?.ToString();
+                                        break;
+                                    case 17:
+                                        rowData.BeTaşımaKatmanları = cellValue?.ToString();
+                                        break;
+                                    case 18:
+                                        rowData.GeçİşZorunluluğu = cellValue?.ToString();
+                                        break;
+                                    case 19:
+                                        int senaryoId;
+                                        if (int.TryParse(cellValue?.ToString(), out senaryoId))
+                                        {
+                                            rowData.UiApiSenaryoId = senaryoId;
+                                        }
+                                        break;
+                                        // Add more cases for additional columns as needed.
+                                }
+                            }
+
+                            importedData.Add(rowData);
+                        }
+
+                        _dbforlastversionContext.Uygulamalars.AddRange(importedData);
+                        _dbforlastversionContext.SaveChanges();
+
+                        return RedirectToAction("Index"); // Redirect to a page after successful import.
+                    }
+                }
+            }
+            else
+            {
+                // Handle the case where no file was uploaded or the file is empty.
+                // You can return an error message or perform appropriate error handling.
+                return View("ErrorView"); // Replace "ErrorView" with the name of your error view.
+            }
+        }
+
+
+        //[HttpPost]
+        //public async Task<ActionResult> ImportFile()
+        //{
+        //    return View("Index");
+        //}
+
         public IActionResult ResultAction()
         {
             // Implement the logic to display results or perform actions based on the selected values.
