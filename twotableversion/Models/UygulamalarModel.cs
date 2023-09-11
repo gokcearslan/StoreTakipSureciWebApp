@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using twotableversion.Data;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-
-
+using System.ComponentModel.DataAnnotations;
 
 namespace twotableversion.Models
 {
@@ -40,7 +39,11 @@ namespace twotableversion.Models
         public string? BEDev { get; set; }
         public string? TasimaKatmanlari { get; set; }
         public string? GecisZorunluluğu { get; set; }
+
+
+        [Required(ErrorMessage = "Senaryo ID farklı olmalıdır.")]
         public int? SenaryoID { get; set; }
         public string Islem { get; set; }
     }
 }
+

@@ -4,20 +4,20 @@
     ViewData["Title"] = "Display Data";
 }
 
-<h1>Selected Takvim: @ViewBag.SelectedTakvimId</h1>
-<h1>Selected Uygulama: @ViewBag.SelectedUygulamaAdi</h1>
+<h1 style="color:#FCB000;">@*Selected Takvim: @ViewBag.SelectedTakvimId*@</h1>
+<h1 style="color: #FCB000;">@*Selected Uygulama:*@ @ViewBag.SelectedUygulamaAdi , @ViewBag.SelectedTakvimId </h1>
+
 
 <input type="text" id="searchInput" placeholder="Search...">
-<button onclick="searchInTable()">Search</button>
+<button onclick="searchInTable()" style="background-color: #FFCA4F; color: white;">Search</button>
 
-<a asp-action="DisplayData">Back to full list </a>
-
+<a href="/Home/Save" style="color:#e68a06;  margin-top:10px; margin-left:50px;">Yeni satır ekle</a>
 
 <table class="table">
     <thead>
         <tr>
-            <th>Uygulama Adı</th>
-            <th>Takvim Id</th>
+           @* <th>Uygulama Adı</th>
+            <th>Takvim Id</th>*@
             <th>Etki Alanı</th>
             <th>Talep/Bug</th>
             <th>Talep Adı</th>
@@ -43,8 +43,8 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.UygulamaAdı</td>
-                <td>@item.TakvimId</td>
+               @* <td>@item.UygulamaAdı</td>
+                <td>@item.TakvimId</td>*@
                 <td>@item.EtkiAlanı</td>
                 <td>@item.TalepBug</td>
                 <td>@item.TalepAdı</td>
@@ -64,8 +64,8 @@
                 <td>@item.GeçİşZorunluluğu</td>
                 <td>@item.UiApiSenaryoId</td>
                 <td>
-                    <a href="/Home/Edit/@item.UiApiSenaryoId">Edit</a>&nbsp;|&nbsp;
-                    <a href="/Home/Delete/@item.UiApiSenaryoId">Delete</a>
+                    <a href="/Home/Edit/@item.UiApiSenaryoId" style="color:#e68a06">Edit</a>&nbsp;|&nbsp;
+                    <a href="/Home/Delete/@item.UiApiSenaryoId" style="color:#e68a06">Delete</a>
                 </td>
             </tr>
         }
@@ -97,4 +97,11 @@
             }
         }
     }
+
+    
 </script>
+<form method="post" asp-action="ExportToExcel">
+    <input type="hidden" name="selectedTakvimId" value="@ViewBag.SelectedTakvimId" />
+    <input type="hidden" name="selectedUygulamaAdi" value="@ViewBag.SelectedUygulamaAdi" />
+    <button type="submit" class="btn btn-primary" style="background-color: #FFCA4F; color: white;">Export to Excel</button>
+</form>

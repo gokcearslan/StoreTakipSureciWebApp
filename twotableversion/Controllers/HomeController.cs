@@ -64,6 +64,8 @@ namespace twotableversion.Controllers
         [HttpPost]
         public IActionResult DisplayData(string selectedTakvimId, string selectedUygulamaAdi)
         {
+
+
             if (int.TryParse(selectedTakvimId, out int takvimId))
             {
                 var data = _dbforlastversionContext.Uygulamalars
@@ -144,6 +146,13 @@ namespace twotableversion.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    if (_dbforlastversionContext.Uygulamalars.Any(u => u.UiApiSenaryoId == uygulamalar.SenaryoID))
+                    {
+                        // Display an error message indicating that the SenaryoID already exists
+                        ModelState.AddModelError("SenaryoID", "Senaryo ID already exists. Please enter a different one.");
+                        return View(uygulamalar);
+                    }
+
                     var newUygulama = new Uygulamalar
                     {
                         TakvimId = uygulamalar.TakvimId,
