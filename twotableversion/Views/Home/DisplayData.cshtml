@@ -2,16 +2,31 @@
 
 @{
     ViewData["Title"] = "Display Data";
+
+  
 }
+
+
 
 <h1 style="color:#FCB000;">@*Selected Takvim: @ViewBag.SelectedTakvimId*@</h1>
 <h1 style="color: #FCB000;">@*Selected Uygulama:*@ @ViewBag.SelectedUygulamaAdi , @ViewBag.SelectedTakvimId </h1>
+
 
 
 <input type="text" id="searchInput" placeholder="Search...">
 <button onclick="searchInTable()" style="background-color: #FFCA4F; color: white;">Search</button>
 
 <a href="/Home/Save" style="color:#e68a06;  margin-top:10px; margin-left:50px;">Yeni satır ekle</a>
+
+
+
+
+
+
+
+
+
+
 
 <table class="table">
     <thead>
@@ -75,6 +90,9 @@
         }
     </tbody>
 </table>
+
+@*<button class="btn btn-primary" onclick="addShortcut()">Add Shortcut</button>*@
+
 
 <script>
     function searchInTable() {
@@ -183,3 +201,32 @@
 
     /* Additional styles for buttons and other elements can be added as needed */
 </style>
+
+
+
+
+@*<script>
+    function addShortcut(takvimId, uygulamaAdi) {
+        var shortcutName = prompt("Enter a name for the shortcut:");
+        if (shortcutName) {
+            // Send the TakvimId, UygulamaAdi, and ShortcutName to the server to save
+            $.ajax({
+                url: '/Shortcuts/Add', // Replace with your controller action
+                method: 'POST',
+                data: {
+                    TakvimId: takvimId,
+                    UygulamaAdi: uygulamaAdi,
+                    ShortcutName: shortcutName
+                },
+                success: function (data) {
+                    if (data.success) {
+                        // Refresh the shortcuts list or update it as needed
+                        // You can also display a success message to the user
+                    } else {
+                        alert("Failed to save shortcut.");
+                    }
+                }
+            });
+        }
+    }
+</script>*@

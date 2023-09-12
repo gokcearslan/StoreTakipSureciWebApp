@@ -63,111 +63,46 @@ namespace twotableversion.Controllers
             ViewBag.TakvimIdOptions = new SelectList(takvimIdOptions);
             ViewBag.UygulamaAdiOptions = new SelectList(uygulamaAdiOptions);
 
+
+          
+
+
+
             return View();
         }
 
-        //[HttpPost]
-        //public IActionResult DisplayData(string selectedTakvimId, string selectedUygulamaAdi)
-        //{
 
-
-        //    if (int.TryParse(selectedTakvimId, out int takvimId))
-        //    {
-        //        var data = _dbforlastversionContext.Uygulamalars
-        //            .Where(row => row.TakvimId == takvimId && row.UygulamaAdı == selectedUygulamaAdi)
-        //            .ToList();
-
-        //        ViewBag.SelectedTakvimId = takvimId;
-        //        ViewBag.SelectedUygulamaAdi = selectedUygulamaAdi;
-
-        //        return View(data);
-
-
-        //    }
-
-
-        //    else
-        //    {
-
-        //        return View("ErrorView"); // Replace "ErrorView" with the name of your error view.
-        //    }
-        //}
-
-
+    
 
         [HttpPost]
         public IActionResult DisplayData(string selectedTakvimId, string selectedUygulamaAdi)
         {
+
+
             if (int.TryParse(selectedTakvimId, out int takvimId))
             {
                 var data = _dbforlastversionContext.Uygulamalars
                     .Where(row => row.TakvimId == takvimId && row.UygulamaAdı == selectedUygulamaAdi)
                     .ToList();
 
-                // You can now set the "Version" property for each row based on your criteria.
-                foreach (var item in data)
-                {
-                    // Replace this logic with your own versioning logic.
-                    item.Version = GetVersionForItem(item);
-                }
-
                 ViewBag.SelectedTakvimId = takvimId;
                 ViewBag.SelectedUygulamaAdi = selectedUygulamaAdi;
 
                 return View(data);
+
+               
             }
+         
+
             else
             {
-                return View("ErrorView"); // Handle the case where 'selectedTakvimId' is not a valid integer.
+
+                return View("ErrorView"); // Replace "ErrorView" with the name of your error view.
             }
         }
 
-        // Add your versioning logic here.
-        private string GetVersionForItem(Uygulamalar item)
-        {
-            // Replace this with your own logic.
-            // Example: Concatenate some properties to create a version string.
-            return $"{item.TakvimId}-{item.UygulamaAdı}-Version";
-        }
+       
 
-
-        //[HttpPost]
-        //public IActionResult SearchResults(string searchQuery)
-        //{
-        //    if (!string.IsNullOrEmpty(searchQuery))
-        //    {
-        //        // Perform the search based on the searchQuery
-        //        var data = _dbforlastversionContext.Uygulamalars
-        //            .Where(row =>                     
-        //                row.TakvimId.ToString().Contains(searchQuery) ||
-        //                row.UygulamaAdı.Contains(searchQuery) ||
-        //                row.EtkiAlanı.ToLower().Contains(searchQuery) ||
-        //                row.TalepBug.ToLower().Contains(searchQuery) ||
-        //                row.TalepAdı.ToLower().Contains(searchQuery) ||
-        //                row.BulguDurumu.ToLower().Contains(searchQuery) ||
-        //                row.Segment.ToLower().Contains(searchQuery) ||
-        //                row.KktyeGönderİldİMİ.ToLower().Contains(searchQuery) ||
-        //                row.KktOnayiAlindiMi.ToLower().Contains(searchQuery) ||
-        //                row.Notlar.ToLower().Contains(searchQuery) ||
-        //                row.İlgiliAnalist.ToLower().Contains(searchQuery) ||
-        //                row.MergeDurumuIos.ToLower().Contains(searchQuery) ||
-        //                row.MergeDurumuAnd.ToLower().Contains(searchQuery) ||
-        //                row.MergeDurumuBe.ToLower().Contains(searchQuery) ||
-        //                row.İlgiliIosDeveloper.ToLower().Contains(searchQuery) ||
-        //                row.İlgiliAndroidDeveloper.ToLower().Contains(searchQuery) ||
-        //                row.İlgiliBeDeveloper.ToLower().Contains(searchQuery) ||
-        //                row.BeTaşımaKatmanları.ToLower().Contains(searchQuery) ||
-        //                row.GeçİşZorunluluğu.ToLower().Contains(searchQuery) ||
-        //                row.UiApiSenaryoId.ToString().Contains(searchQuery)
-        //            )
-        //            .ToList();
-
-        //        return View("DisplayData", data); // Display the search results using the existing DisplayData view
-        //    }
-
-        //    // Handle the case when no search query is provided
-        //    return RedirectToAction("DisplayData");
-        //}
 
 
 

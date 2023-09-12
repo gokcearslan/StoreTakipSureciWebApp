@@ -144,3 +144,54 @@
   @*  <input type="submit" value="Edit" />*@
     <button type="submit" class="btn btn-primary" style="background-color: #FFCA4F; color: white; margin-top:0px margin-left:0px">Edit</button>
 }
+
+<script>
+    // Initialize an empty list of favorite tables
+    const favoriteTables = [];
+
+    // Function to add a favorite table
+    function addFavoriteTable() {
+        const favoriteName = prompt("Enter a name for the favorite table:");
+        if (favoriteName) {
+            const newFavoriteTable = { name: favoriteName, rows: [] };
+            favoriteTables.push(newFavoriteTable);
+
+            // Update the list of favorite tables
+            updateFavoriteTablesList();
+
+            // Select the newly created favorite table
+            selectFavoriteTable(newFavoriteTable);
+        }
+    }
+
+    // Function to update the list of favorite tables in the UI
+    function updateFavoriteTablesList() {
+        const favoriteTablesList = document.getElementById("favorite-tables-list");
+        favoriteTablesList.innerHTML = "";
+
+        favoriteTables.forEach((table, index) => {
+            const listItem = document.createElement("li");
+            listItem.textContent = table.name;
+            listItem.addEventListener("click", () => selectFavoriteTable(table));
+            favoriteTablesList.appendChild(listItem);
+        });
+    }
+
+    // Function to select and display a favorite table's content
+    function selectFavoriteTable(table) {
+        const selectedFavoriteTable = document.getElementById("selected-favorite-table");
+        selectedFavoriteTable.innerHTML = "";
+
+        const tableHeader = document.createElement("h3");
+        tableHeader.textContent = `Favorite Table: ${table.name}`;
+        selectedFavoriteTable.appendChild(tableHeader);
+
+        const tableContent = document.createElement("ul");
+        table.rows.forEach((row) => {
+            const rowItem = document.createElement("li");
+            rowItem.textContent = row;
+            tableContent.appendChild(rowItem);
+        });
+        selectedFavoriteTable.appendChild(tableContent);
+    }
+</script>
