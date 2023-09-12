@@ -1,7 +1,5 @@
-﻿@*@model twotableversion.Models.UygulamalarModel
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation/1.19.3/jquery.validate.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+﻿@model twotableversion.Models.UygulamalarModel
+
 
 <h2>başlık </h2>
 
@@ -28,8 +26,8 @@
     </div>
 
     <div class="form-group">
-        <label for="SenaryoID">UI/API Senaryo ID:</label>
-        @Html.TextBoxFor(m => m.SenaryoID, new { @class = "form-control" })
+        <label for="version">Version:</label>
+        @Html.TextBoxFor(m => m.version, new { @class = "form-control" })
     </div>
     
 
@@ -38,4 +36,3 @@
 
 
 
-*@

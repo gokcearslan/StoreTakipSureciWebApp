@@ -21,8 +21,20 @@
 
 
 
+@*<div style="margin-top: 20px;">
+    <strong>Version:</strong> @item.version
+</div>
+*@
 
-
+@*<table class="table">
+    <thead>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Version: @Model[0].Version</td>
+        </tr>
+    </tbody>
+</table>*@
 
 
 
@@ -33,6 +45,7 @@
         <tr>
            @* <th>Uygulama Adı</th>
             <th>Takvim Id</th>*@
+            <th>Version</th>
             <th>Etki Alanı</th>
             <th>Talep/Bug</th>
             <th>Talep Adı</th>
@@ -60,13 +73,18 @@
             <tr>
                @* <td>@item.UygulamaAdı</td>
                 <td>@item.TakvimId</td>*@
+                <td>@item.Version</td>
                 <td>@item.EtkiAlanı</td>
                 <td>@item.TalepBug</td>
                 <td>@item.TalepAdı</td>
                 <td>@item.BulguDurumu</td>
                 <td>@item.Segment</td>
-                <td>@item.KktyeGönderİldİMİ</td>
-                <td>@item.KktOnayiAlindiMi</td>
+                @*<td>@item.KktyeGönderİldİMİ</td>
+                <td>@item.KktOnayiAlindiMi</td>*@,
+                <td style="background-color: @(item.KktyeGönderİldİMİ.Equals("Yes", StringComparison.OrdinalIgnoreCase) ? "green" : "red")">@item.KktyeGönderİldİMİ</td>
+                <td style="background-color: @(item.KktOnayiAlindiMi.Equals("Yes", StringComparison.OrdinalIgnoreCase) ? "green" : "red")">@item.KktOnayiAlindiMi</td>
+
+            
                 <td>@item.Notlar</td>
                 <td>@item.İlgiliAnalist</td>
                 <td>@item.MergeDurumuIos</td>
@@ -78,6 +96,7 @@
                 <td>@item.BeTaşımaKatmanları</td>
                 <td>@item.GeçİşZorunluluğu</td>
                 <td>@item.UiApiSenaryoId</td>
+                
                 <td>
                     <a href="/Home/Edit/@item.satırID" style="color:#e68a06">Edit</a>&nbsp;|&nbsp;
                 
@@ -91,8 +110,8 @@
     </tbody>
 </table>
 
-@*<button class="btn btn-primary" onclick="addShortcut()">Add Shortcut</button>*@
-
+@*<button class="btn btn-primary" onclick="addShortcut()">Add Shortcut</button>
+*@
 
 <script>
     function searchInTable() {
@@ -204,8 +223,28 @@
 
 
 
+<script>
+    function editVersion(version) {
+        $("#editVersionModal input[name='version']").val(version);
+        $("#editVersionModal").modal("show");
+    }
 
-@*<script>
+    function deleteVersion(version) {
+        $("#deleteVersionModal input[name='Version']").val(version);
+        $("#deleteVersionModal").modal("show");
+    }
+</script>
+
+
+
+
+
+
+
+
+@*
+    KISA YOLA EKLEME 
+<script>
     function addShortcut(takvimId, uygulamaAdi) {
         var shortcutName = prompt("Enter a name for the shortcut:");
         if (shortcutName) {
@@ -229,4 +268,5 @@
             });
         }
     }
-</script>*@
+</script>
+*@

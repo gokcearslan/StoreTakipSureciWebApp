@@ -8,6 +8,13 @@
     @Html.TextBoxFor(m=>m.TakvimId,new{@class="form-control"})
     </td>
     </tr>*@
+
+        <tr>
+            <td style=" width:20%">Version:</td>
+            <td style="width:80%">
+                @Html.TextBoxFor(m=>m.version,new{@class="form-control"})
+            </td>
+        </tr>
         <tr>
             <td style=" width:20%">Etki Alanı:</td>
             <td style="width:80%">
@@ -45,18 +52,46 @@
         </tr>
 
         <tr>
-            <td style=" width:20%">KKTYE Gönderildi mi?:</td>
+            <td style="width:20%">KKTYE Gönderildi mi?:</td>
             <td style="width:80%">
-                @Html.TextBoxFor(m=>m.KKTYeGonderilme,new{@class="form-control"})
+                <select name="KKTYeGonderilme" style="width: 100%;" id="kktyeGonderildiSelect">
+                    <option value="yes" style="background-color:green;">Yes</option>
+                    <option value="no" style="background-color:red;">No</option>
+                </select>
             </td>
         </tr>
 
         <tr>
-            <td style=" width:20%">KKT Onayı Alındı mı:</td>
+            <td style="width:20%">KKT Onayı Alındı mı:</td>
             <td style="width:80%">
-                @Html.TextBoxFor(m=>m.KKTOnayi,new{@class="form-control"})
+                <select name="KKTOnayi" style="width: 100%;" id="kktOnayiSelect">
+                    <option value="yes" style="background-color:green;">Yes</option>
+                    <option value="no" style="background-color:red;">No</option>
+                </select>
             </td>
         </tr>
+
+
+      @*  <tr>
+            <td style="width:20%">KKTYE Gönderildi mi?:</td>
+            <td style="width:80%; background-color: @(Model.KKTYeGonderilme.Equals("Yes", StringComparison.OrdinalIgnoreCase) ? "green" : "red")">
+                <select name="KKTYeGonderilme" style="width: 100%;">
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td style="width:20%">KKT Onayı Alındı mı:</td>
+            <td style="width:80%; background-color: @(Model.KKTOnayi.Equals("Yes", StringComparison.OrdinalIgnoreCase) ? "green" : "red")">
+                <select name="KKTOnayi" style="width: 100%;">
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </td>
+        </tr>*@
+
 
         <tr>
             <td style=" width:20%">Notlar:</td>
@@ -194,4 +229,26 @@
         });
         selectedFavoriteTable.appendChild(tableContent);
     }
+</script>
+<script>
+    // JavaScript function to update the background color of the select boxes
+    function updateSelectBackgroundColor(selectId) {
+        const select = document.getElementById(selectId);
+        const selectedOption = select.options[select.selectedIndex];
+        const backgroundColor = window.getComputedStyle(selectedOption).backgroundColor;
+        select.style.backgroundColor = backgroundColor;
+    }
+
+    // Listen to the change event for each select element
+    document.getElementById("kktyeGonderildiSelect").addEventListener("change", function () {
+        updateSelectBackgroundColor("kktyeGonderildiSelect");
+    });
+
+    document.getElementById("kktOnayiSelect").addEventListener("change", function () {
+        updateSelectBackgroundColor("kktOnayiSelect");
+    });
+
+    // Initially set the background color based on the selected options
+    updateSelectBackgroundColor("kktyeGonderildiSelect");
+    updateSelectBackgroundColor("kktOnayiSelect");
 </script>
