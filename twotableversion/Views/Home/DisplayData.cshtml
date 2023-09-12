@@ -64,8 +64,12 @@
                 <td>@item.GeçİşZorunluluğu</td>
                 <td>@item.UiApiSenaryoId</td>
                 <td>
-                    <a href="/Home/Edit/@item.UiApiSenaryoId" style="color:#e68a06">Edit</a>&nbsp;|&nbsp;
-                    <a href="/Home/Delete/@item.UiApiSenaryoId" style="color:#e68a06">Delete</a>
+                    <a href="/Home/Edit/@item.satırID" style="color:#e68a06">Edit</a>&nbsp;|&nbsp;
+                
+                    <a href="#" style="color:#e68a06" onclick="showModal(); document.getElementById('confirmDelete').href='/Home/Delete/@item.satırID'">Delete</a>
+                
+
+                    @*<a href="/Home/Delete/@item.satırID" style="color:#e68a06">Delete</a>*@
                 </td>
             </tr>
         }
@@ -105,3 +109,77 @@
     <input type="hidden" name="selectedUygulamaAdi" value="@ViewBag.SelectedUygulamaAdi" />
     <button type="submit" class="btn btn-primary" style="background-color: #FFCA4F; color: white;">Export to Excel</button>
 </form>
+
+<!-- The Modal -->
+<div id="deleteModal" class="modal">
+    <div class="modal-content center">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2 style="color:red">Are you sure</h2>
+        <p> you want to delete this item?</p>
+        <div class="button-container" >
+            <a href="#" class="delete-button" style=" color:#e68a06"" id="confirmDelete">Yes</a>
+            <a href="#" class="cancel-button" style="color:#e68a06" onclick="closeModal()">No</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Show the modal
+    function showModal() {
+        var modal = document.getElementById("deleteModal");
+        modal.style.display = "block";
+    }
+
+    // Close the modal
+    function closeModal() {
+        var modal = document.getElementById("deleteModal");
+        modal.style.display = "none";
+    }
+</script>
+<style>
+    /* Center the modal */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgba(0, 0, 0, 0.4); /* Black with a transparency */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%; /* Could be more or less, depending on screen size */
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        transition: 0.3s;
+    }
+
+    /* Close button */
+    .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    /* Center the content inside the modal */
+    .center {
+        text-align: center;
+    }
+
+    /* Additional styles for buttons and other elements can be added as needed */
+</style>

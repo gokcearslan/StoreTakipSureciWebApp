@@ -60,11 +60,12 @@ public partial class DbforlastversionContext : DbContext
         modelBuilder.Entity<Uygulamalar>(entity =>
         {
             entity.ToTable("Uygulamalar");
-            entity.HasKey(e => e.UiApiSenaryoId);
+            entity.HasKey(e => e.satırID);
 
-            //entity.Property(e => e.SatırId)
-            //   .ValueGeneratedNever()
-            //  .HasColumnName("Satır Id");
+            // Configure satırID as an identity column
+            entity.Property(e => e.satırID)
+                .ValueGeneratedOnAdd() // Specify that it should be auto-generated
+                .HasColumnName("Satır Id");
 
             entity.Property(e => e.BeTaşımaKatmanları)
                 .HasColumnType("text")
@@ -119,7 +120,9 @@ public partial class DbforlastversionContext : DbContext
               .HasColumnName("Uygulama Adı");
 
 
-
+                entity.Property(e => e.Version)
+              .HasColumnType("varchar(max)")
+              .HasColumnName("Version");
 
             entity.Property(e => e.İlgiliAnalist)
                 .HasColumnType("text")

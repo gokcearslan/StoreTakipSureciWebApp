@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using System.Diagnostics;
 using twotableversion.Data;
+//using twotableversion.Hubs;
 using twotableversion.Models;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -21,7 +22,7 @@ namespace twotableversion.Controllers
             _logger = logger;
             _dbforlastversionContext = dbforlastversionContext;
         }
-      
+
         //public async Task<IActionResult> DisplayData(string SearchString)
         //{
         //    //return View(await _dbforlastversionContext.Uygulamalars.ToListAsync());
@@ -42,6 +43,10 @@ namespace twotableversion.Controllers
 
 
         //}
+
+        //public ActionResult GetUygulamalarData() { 
+        //return View("DisplayData", _dbforlastversionContext.Uygulamalars.ToList());
+        //        }
         public IActionResult Index()
         {
             // Retrieve distinct values for TakvimId and UygulamaAdi columns from the database
@@ -61,35 +66,69 @@ namespace twotableversion.Controllers
             return View();
         }
 
+        //[HttpPost]
+        //public IActionResult DisplayData(string selectedTakvimId, string selectedUygulamaAdi)
+        //{
+
+
+        //    if (int.TryParse(selectedTakvimId, out int takvimId))
+        //    {
+        //        var data = _dbforlastversionContext.Uygulamalars
+        //            .Where(row => row.TakvimId == takvimId && row.UygulamaAdı == selectedUygulamaAdi)
+        //            .ToList();
+
+        //        ViewBag.SelectedTakvimId = takvimId;
+        //        ViewBag.SelectedUygulamaAdi = selectedUygulamaAdi;
+
+        //        return View(data);
+
+
+        //    }
+
+
+        //    else
+        //    {
+
+        //        return View("ErrorView"); // Replace "ErrorView" with the name of your error view.
+        //    }
+        //}
+
+
+
         [HttpPost]
         public IActionResult DisplayData(string selectedTakvimId, string selectedUygulamaAdi)
         {
-
-
             if (int.TryParse(selectedTakvimId, out int takvimId))
             {
                 var data = _dbforlastversionContext.Uygulamalars
                     .Where(row => row.TakvimId == takvimId && row.UygulamaAdı == selectedUygulamaAdi)
                     .ToList();
 
+                // You can now set the "Version" property for each row based on your criteria.
+                foreach (var item in data)
+                {
+                    // Replace this logic with your own versioning logic.
+                    item.Version = GetVersionForItem(item);
+                }
+
                 ViewBag.SelectedTakvimId = takvimId;
                 ViewBag.SelectedUygulamaAdi = selectedUygulamaAdi;
 
                 return View(data);
-
-
             }
-
-
             else
             {
-
-                return View("ErrorView"); // Replace "ErrorView" with the name of your error view.
+                return View("ErrorView"); // Handle the case where 'selectedTakvimId' is not a valid integer.
             }
         }
 
-
-
+        // Add your versioning logic here.
+        private string GetVersionForItem(Uygulamalar item)
+        {
+            // Replace this with your own logic.
+            // Example: Concatenate some properties to create a version string.
+            return $"{item.TakvimId}-{item.UygulamaAdı}-Version";
+        }
 
 
         //[HttpPost]
@@ -146,15 +185,11 @@ namespace twotableversion.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (_dbforlastversionContext.Uygulamalars.Any(u => u.UiApiSenaryoId == uygulamalar.SenaryoID))
-                    {
-                        // Display an error message indicating that the SenaryoID already exists
-                        ModelState.AddModelError("SenaryoID", "Senaryo ID already exists. Please enter a different one.");
-                        return View(uygulamalar);
-                    }
+                   
 
                     var newUygulama = new Uygulamalar
                     {
+                        
                         TakvimId = uygulamalar.TakvimId,
                         UygulamaAdı = uygulamalar.UygulamaAdı,
                         EtkiAlanı = uygulamalar.EtkiAlanı,
@@ -194,6 +229,43 @@ namespace twotableversion.Controllers
         }
 
 
+        //public IActionResult SaveTakvim(UygulamalarModel uygulamalar)
+        //{
+        //    try
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            if (_dbforlastversionContext.Uygulamalars.Any(u => u.UiApiSenaryoId == uygulamalar.SenaryoID))
+        //            {
+        //                // Display an error message indicating that the SenaryoID already exists
+        //                ModelState.AddModelError("SenaryoID", "Senaryo ID already exists. Please enter a different one.");
+        //                return View(uygulamalar);
+        //            }
+
+        //            var newUygulama = new Uygulamalar
+        //            {
+        //                TakvimId = uygulamalar.TakvimId,
+        //                UygulamaAdı = uygulamalar.UygulamaAdı,
+        //                UiApiSenaryoId = uygulamalar.SenaryoID
+
+        //            };
+
+        //            _dbforlastversionContext.Uygulamalars.Add(newUygulama);
+        //            _dbforlastversionContext.SaveChanges();
+
+        //            //UygulamalarHub.BroadcastData();
+        //            return RedirectToAction("Index"); // Redirect to the appropriate action
+        //        }
+        //    }
+        //    catch (DbUpdateException e)
+        //    {
+        //        // Log the error and handle it gracefully
+        //        Console.WriteLine(e.InnerException.Message);
+        //        TempData["SaveStatus"] = 0;
+        //    }
+
+        //    return View(uygulamalar); // Return the view with validation errors
+        //}
 
 
         [HttpGet]
@@ -226,9 +298,8 @@ namespace twotableversion.Controllers
                 BEDev = existingData.İlgiliBeDeveloper,
                 TasimaKatmanlari = existingData.BeTaşımaKatmanları,
                 GecisZorunluluğu = existingData.GeçİşZorunluluğu,
-                // senaryo Id Key olduğu için editlenmiyor değiştirilebilir
+                SenaryoID=existingData.UiApiSenaryoId,
 
-                SenaryoID = existingData.UiApiSenaryoId
             };
 
             return View(uygulamalar);
@@ -263,8 +334,7 @@ namespace twotableversion.Controllers
             existingData.İlgiliBeDeveloper = uygulamalar.BEDev;
             existingData.BeTaşımaKatmanları = uygulamalar.TasimaKatmanlari;
             existingData.GeçİşZorunluluğu = uygulamalar.GecisZorunluluğu;
-            // senaryo Id Key olduğu için editlenmiyor değiştirilebilir
-            //existingData.UiApiSenaryoId = uygulamalar.SenaryoID;
+            existingData.UiApiSenaryoId = uygulamalar.SenaryoID;
 
             _dbforlastversionContext.SaveChanges();
 

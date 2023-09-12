@@ -7,6 +7,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<DbforlastversionContext>();
 var app = builder.Build();
 
+//builder.Services.AddSignalR();
+//app.MapHub<UygulamalarHub>("/uygulamalarHub");
+
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

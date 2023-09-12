@@ -6,7 +6,7 @@ namespace twotableversion.Data;
 public partial class Uygulamalar
 {
 
-
+    public string? Version { get; set; }
     public string ?UygulamaAdı { get; set; }
 
     public int? TakvimId { get; set; }
@@ -46,4 +46,6 @@ public partial class Uygulamalar
     public string? GeçİşZorunluluğu { get; set; }
 
     public int? UiApiSenaryoId { get; set; }
+
+    public int? satırID { get; set; }
 }

@@ -18,8 +18,8 @@ namespace twotableversion.Models
         //public List<SelectList> SelectedRowList { get; set; } 
 
         public bool FilterApplied { get; set; }
-
-
+        public string version { get; set; }
+        public int satırId { get; set; }
         public int? TakvimId { get; set; }
         public string? UygulamaAdı { get; set; }
         public string? EtkiAlanı { get; set; }
@@ -41,7 +41,7 @@ namespace twotableversion.Models
         public string? GecisZorunluluğu { get; set; }
 
 
-        [Required(ErrorMessage = "Senaryo ID farklı olmalıdır.")]
+        //[Required(ErrorMessage = "Senaryo ID farklı olmalıdır.")]
         public int? SenaryoID { get; set; }
         public string Islem { get; set; }
     }
