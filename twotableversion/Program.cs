@@ -1,11 +1,17 @@
+using twotableversion;
 using twotableversion.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSignalR();
+
 builder.Services.AddSingleton<DbforlastversionContext>();
 var app = builder.Build();
+
+
+//builder.Services.AddRazorPages();
 
 //builder.Services.AddSignalR();
 //app.MapHub<UygulamalarHub>("/uygulamalarHub");
@@ -23,6 +29,12 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<CrudHub>("/crudhub");
+}
+);
 
 app.UseAuthorization();
 

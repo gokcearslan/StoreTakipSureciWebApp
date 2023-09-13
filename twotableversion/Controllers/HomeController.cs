@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using System.Diagnostics;
@@ -15,12 +16,14 @@ namespace twotableversion.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private DbforlastversionContext _dbforlastversionContext;
+        private readonly IHubContext<CrudHub> _hubContext;
 
-
-        public HomeController(ILogger<HomeController> logger, DbforlastversionContext dbforlastversionContext)
+        public HomeController(ILogger<HomeController> logger, DbforlastversionContext dbforlastversionContext, IHubContext<CrudHub> hubContext)
         {
             _logger = logger;
             _dbforlastversionContext = dbforlastversionContext;
+            _hubContext = hubContext;
+
         }
 
         public IActionResult Index()
@@ -39,18 +42,12 @@ namespace twotableversion.Controllers
             ViewBag.TakvimIdOptions = new SelectList(takvimIdOptions);
             ViewBag.UygulamaAdiOptions = new SelectList(uygulamaAdiOptions);
 
-
-          
-
-
-
             return View();
         }
 
         [HttpPost]
         public IActionResult DisplayData(string selectedTakvimId, string selectedUygulamaAdi)
         {
-
 
             if (int.TryParse(selectedTakvimId, out int takvimId))
             {
@@ -63,18 +60,41 @@ namespace twotableversion.Controllers
 
                 return View(data);
 
-                
-
             }
-
-
             else
             {
-
                 return View("ErrorView"); // Replace "ErrorView" with the name of your error view.
             }
         }
 
+        //[HttpPost]
+        //public async Task<IActionResult> DisplayData(string selectedTakvimId, string selectedUygulamaAdi)
+        //{
+
+
+        //    if (int.TryParse(selectedTakvimId, out int takvimId))
+        //    {
+        //        var data = _dbforlastversionContext.Uygulamalars
+        //            .Where(row => row.TakvimId == takvimId && row.UygulamaAdı == selectedUygulamaAdi)
+        //            .ToList();
+
+        //        ViewBag.SelectedTakvimId = takvimId;
+        //        ViewBag.SelectedUygulamaAdi = selectedUygulamaAdi;
+        //        await NotifyClients("DisplayData", "güncelleme");
+
+        //        return View(data);
+
+
+
+        //    }
+
+
+        //    else
+        //    {
+
+        //        return View("ErrorView"); // Replace "ErrorView" with the name of your error view.
+        //    }
+    //}
 
         [HttpGet]
         public IActionResult Save()
@@ -89,11 +109,9 @@ namespace twotableversion.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                   
-
                     var newUygulama = new Uygulamalar
                     {
-                     
+
                         TakvimId = uygulamalar.TakvimId,
                         UygulamaAdı = uygulamalar.UygulamaAdı,
                         EtkiAlanı = uygulamalar.EtkiAlanı,
@@ -114,12 +132,12 @@ namespace twotableversion.Controllers
                         BeTaşımaKatmanları = uygulamalar.TasimaKatmanlari,
                         GeçİşZorunluluğu = uygulamalar.GecisZorunluluğu,
                         UiApiSenaryoId = uygulamalar.SenaryoID,
-                         Version =uygulamalar.version
+                        Version = uygulamalar.version
                     };
 
                     _dbforlastversionContext.Uygulamalars.Add(newUygulama);
                     _dbforlastversionContext.SaveChanges();
-
+                    //await NotifyClients("Save", "A new record has been created.");
                     return RedirectToAction("Index"); // Redirect to the appropriate action
                 }
             }
@@ -203,8 +221,8 @@ namespace twotableversion.Controllers
                 BEDev = existingData.İlgiliBeDeveloper,
                 TasimaKatmanlari = existingData.BeTaşımaKatmanları,
                 GecisZorunluluğu = existingData.GeçİşZorunluluğu,
-                SenaryoID=existingData.UiApiSenaryoId,
-                version=existingData.Version,
+                SenaryoID = existingData.UiApiSenaryoId,
+                version = existingData.Version,
 
             };
 
@@ -307,12 +325,9 @@ namespace twotableversion.Controllers
                         }
                     }
 
-
                     worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
 
-
                     var fileName = "UygulamaData.xlsx";
-
                     var stream = new MemoryStream(package.GetAsByteArray());
                     return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
                 }
@@ -324,9 +339,6 @@ namespace twotableversion.Controllers
                 return View("ErrorView"); // Replace "ErrorView" with the name of your error view.
             }
         }
-
-
-
 
         //[HttpPost]
         //public IActionResult ImportFromExcel(IFormFile excelFile)
@@ -457,7 +469,7 @@ namespace twotableversion.Controllers
 
 
         // Version bilgisini görüntülemek için
-     
+
         public IActionResult Details(string version)
         {
             var uygulama = _dbforlastversionContext.Uygulamalars.FirstOrDefault(u => u.Version == version);
@@ -471,18 +483,11 @@ namespace twotableversion.Controllers
         }
 
 
-        
-
-    
-
-
-
         public IActionResult ResultAction()
         {
             // Implement the logic to display results or perform actions based on the selected values.
             return View();
         }
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -493,9 +498,10 @@ namespace twotableversion.Controllers
             };
             return View(errorViewModel);
         }
+        private async Task NotifyClients(string operation, string message)
+        {
+            await _hubContext.Clients.All.SendAsync("ReceiveCrudOperation", operation, message);
 
-
-
-
+        }
     }
 }

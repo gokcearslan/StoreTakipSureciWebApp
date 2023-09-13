@@ -1,19 +1,17 @@
 ﻿@using twotableversion.Data
 
 @{
-    ViewData["Title"] = "Display Data";
-
-  
-}
+    ViewData["Title"] = "Display Data";}
 
 
 
 <h1 style="color:#FCB000;">@*Selected Takvim: @ViewBag.SelectedTakvimId*@</h1>
+
 <h1 style="color: #FCB000;">@*Selected Uygulama:*@ @ViewBag.SelectedUygulamaAdi , @ViewBag.SelectedTakvimId </h1>
 
 
 
-<input type="text" id="searchInput" placeholder="Search...">
+<input type="text" id="searchInput" placeholder="Search">
 <button onclick="searchInTable()" style="background-color: #FFCA4F; color: white;">Search</button>
 
 <a href="/Home/Save" style="color:#e68a06;  margin-top:10px; margin-left:50px;">Yeni satır ekle</a>
@@ -21,12 +19,14 @@
 
 
 
-@*<div style="margin-top: 20px;">
+@*
+
+<div style="margin-top: 20px;">
     <strong>Version:</strong> @item.version
 </div>
-*@
 
-@*<table class="table">
+
+<table class="table">
     <thead>
     </thead>
     <tbody>
@@ -34,13 +34,13 @@
             <td>Version: @Model[0].Version</td>
         </tr>
     </tbody>
-</table>*@
+</table>
+*@
 
 
 
 
-
-<table class="table">
+<table class="table" style="border-block-color:#FCB000">
     <thead>
         <tr>
            @* <th>Uygulama Adı</th>
@@ -79,11 +79,24 @@
                 <td>@item.TalepAdı</td>
                 <td>@item.BulguDurumu</td>
                 <td>@item.Segment</td>
-                @*<td>@item.KktyeGönderİldİMİ</td>
-                <td>@item.KktOnayiAlindiMi</td>*@,
-                <td style="background-color: @(item.KktyeGönderİldİMİ.Equals("Yes", StringComparison.OrdinalIgnoreCase) ? "green" : "red")">@item.KktyeGönderİldİMİ</td>
-                <td style="background-color: @(item.KktOnayiAlindiMi.Equals("Yes", StringComparison.OrdinalIgnoreCase) ? "green" : "red")">@item.KktOnayiAlindiMi</td>
 
+
+          @*      <td style="background-color: @(item.KktyeGönderİldİMİ == "No" ? "red" : (item.KktyeGönderİldİMİ == "Yes" ? "GreenBackground" : "inherit"));">
+                    @item.KktyeGönderİldİMİ
+                </td>
+
+
+
+
+                <td style="background-color: @(item.KktOnayiAlindiMi == "No" ? "red" : (item.KktOnayiAlindiMi == "Yes" ? "green" : "inherit"));">
+                    @item.KktOnayiAlindiMi
+                </td>*@
+
+
+                <td>@item.KktyeGönderİldİMİ</td>
+
+                <td>@item.KktOnayiAlindiMi</td>
+             
             
                 <td>@item.Notlar</td>
                 <td>@item.İlgiliAnalist</td>
@@ -103,7 +116,7 @@
                     <a href="#" style="color:#e68a06" onclick="showModal(); document.getElementById('confirmDelete').href='/Home/Delete/@item.satırID'">Delete</a>
                 
 
-                    @*<a href="/Home/Delete/@item.satırID" style="color:#e68a06">Delete</a>*@
+                
                 </td>
             </tr>
         }
@@ -221,9 +234,44 @@
     /* Additional styles for buttons and other elements can be added as needed */
 </style>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.10/signalr.min.js"></script>
+@*<script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/crudhub")
+        .build();
 
+    connection.on("ReceiveCrudOperation", (operation, message) => {
+        // Handle real-time updates here
+        console.log(`${operation}: ${message}`);
+    });
+
+    connection.start().catch(err => console.error(err));
+
+
+</script>*@
 
 <script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/crudhub")
+        .build();
+
+    connection.on("ReceiveCrudOperation", (operation, message) => {
+        // Handle real-time updates here
+        console.log(`${operation}: ${message}`);
+    });
+
+    connection.start()
+        .then(() => {
+            console.log("SignalR connected successfully.");
+        })
+        .catch(error => {
+            console.error("SignalR connection error: " + error);
+        });
+</script>
+
+
+
+@*<script>
     function editVersion(version) {
         $("#editVersionModal input[name='version']").val(version);
         $("#editVersionModal").modal("show");
@@ -235,7 +283,7 @@
     }
 </script>
 
-
+*@
 
 
 

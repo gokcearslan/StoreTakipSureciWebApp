@@ -55,8 +55,8 @@
             <td style="width:20%">KKTYE Gönderildi mi?:</td>
             <td style="width:80%">
                 <select name="KKTYeGonderilme" style="width: 100%;" id="kktyeGonderildiSelect">
-                    <option value="yes" style="background-color:green;">Yes</option>
-                    <option value="no" style="background-color:red;">No</option>
+                    <option value="evet" style="background-color:green;">Evet</option>
+                    <option value="hayır" style="background-color:red;">Hayır</option>
                 </select>
             </td>
         </tr>
@@ -65,8 +65,8 @@
             <td style="width:20%">KKT Onayı Alındı mı:</td>
             <td style="width:80%">
                 <select name="KKTOnayi" style="width: 100%;" id="kktOnayiSelect">
-                    <option value="yes" style="background-color:green;">Yes</option>
-                    <option value="no" style="background-color:red;">No</option>
+                    <option value="evet" style="background-color:green;">Evet</option>
+                    <option value="hayır" style="background-color:red;">Hayır</option>
                 </select>
             </td>
         </tr>
@@ -165,12 +165,12 @@
 
     @*    senaryo key olduğu için gösterilmesin editlenmiyor çünkü*@
 
-       @* <tr>
+        <tr>
             <td style=" width:20%">UI/API Senaryo ID:</td>
             <td style="width:80%">
                 @Html.TextBoxFor(m=>m.SenaryoID,new{@class="form-control"})
             </td>
-        </tr>*@
+        </tr>
 
     </table>
 
@@ -180,7 +180,7 @@
     <button type="submit" class="btn btn-primary" style="background-color: #FFCA4F; color: white; margin-top:0px margin-left:0px">Edit</button>
 }
 
-<script>
+@*<script>
     // Initialize an empty list of favorite tables
     const favoriteTables = [];
 
@@ -229,7 +229,7 @@
         });
         selectedFavoriteTable.appendChild(tableContent);
     }
-</script>
+</script>*@
 <script>
     // JavaScript function to update the background color of the select boxes
     function updateSelectBackgroundColor(selectId) {

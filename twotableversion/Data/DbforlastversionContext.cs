@@ -73,6 +73,8 @@ public partial class DbforlastversionContext : DbContext
             entity.Property(e => e.BulguDurumu)
                 .HasColumnType("text")
                 .HasColumnName("BULGU DURUMU");
+            
+
             entity.Property(e => e.EtkiAlanı)
                 .HasColumnType("text")
                 .HasColumnName("Etki Alanı");

@@ -48,4 +48,8 @@ public partial class Uygulamalar
     public int? UiApiSenaryoId { get; set; }
 
     public int? satırID { get; set; }
+
+
+    
+    
 }

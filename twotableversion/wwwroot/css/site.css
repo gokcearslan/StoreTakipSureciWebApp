@@ -16,3 +16,11 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.GreenBackground {
+    background-color: green;
+}
+
+.RedBackground {
+    background-color: red;
+}
