@@ -7,7 +7,7 @@ public partial class Uygulamalar
 {
 
     public string? Version { get; set; }
-    public string ?UygulamaAdı { get; set; }
+    public string? UygulamaAdı { get; set; }
 
     public int? TakvimId { get; set; }
 
@@ -41,7 +41,7 @@ public partial class Uygulamalar
 
     public string? İlgiliBeDeveloper { get; set; }
 
-    public string?  BeTaşımaKatmanları { get; set; }
+    public string? BeTaşımaKatmanları { get; set; }
 
     public string? GeçİşZorunluluğu { get; set; }
 
@@ -50,6 +50,6 @@ public partial class Uygulamalar
     public int? satırID { get; set; }
 
 
-    
-    
+
+
 }

@@ -120,6 +120,35 @@
                 </td>
             </tr>
         }
+
+
+        <script>
+            // Define a function to refresh the page
+            function refreshPage() {
+                location.reload();
+            }
+
+            // Set the timeout interval to 10 seconds (in milliseconds)
+            const refreshInterval = 10000; // 10 seconds
+
+            // Initialize a timer to track user inactivity
+            let inactivityTimer;
+
+             //Reset the inactivity timer whenever there's user interaction
+             //  Search görüntülenleri maouse hareket ettiği sürece süre uzayıp görebilir 
+            document.addEventListener("mousemove", resetTimer);
+            document.addEventListener("keydown", resetTimer);
+
+            // Function to reset the inactivity timer
+            function resetTimer() {
+                clearTimeout(inactivityTimer);
+                inactivityTimer = setTimeout(refreshPage, refreshInterval);
+            }
+
+            // Start the initial inactivity timer
+            resetTimer();
+        </script>
+
     </tbody>
 </table>
 
@@ -234,7 +263,9 @@
     /* Additional styles for buttons and other elements can be added as needed */
 </style>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.10/signalr.min.js"></script>
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.10/signalr.min.js"></script>*@
+
+
 @*<script>
     const connection = new signalR.HubConnectionBuilder()
         .withUrl("/crudhub")
@@ -250,7 +281,7 @@
 
 </script>*@
 
-<script>
+@*<script>
     const connection = new signalR.HubConnectionBuilder()
         .withUrl("/crudhub")
         .build();
@@ -267,7 +298,7 @@
         .catch(error => {
             console.error("SignalR connection error: " + error);
         });
-</script>
+</script>*@
 
 
 
@@ -318,3 +349,7 @@
     }
 </script>
 *@
+
+
+
+

@@ -16,13 +16,12 @@ namespace twotableversion.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private DbforlastversionContext _dbforlastversionContext;
-        private readonly IHubContext<CrudHub> _hubContext;
+        
 
-        public HomeController(ILogger<HomeController> logger, DbforlastversionContext dbforlastversionContext, IHubContext<CrudHub> hubContext)
+        public HomeController(ILogger<HomeController> logger, DbforlastversionContext dbforlastversionContext)
         {
             _logger = logger;
             _dbforlastversionContext = dbforlastversionContext;
-            _hubContext = hubContext;
 
         }
 
@@ -94,7 +93,7 @@ namespace twotableversion.Controllers
 
         //        return View("ErrorView"); // Replace "ErrorView" with the name of your error view.
         //    }
-    //}
+        //}
 
         [HttpGet]
         public IActionResult Save()
@@ -498,10 +497,6 @@ namespace twotableversion.Controllers
             };
             return View(errorViewModel);
         }
-        private async Task NotifyClients(string operation, string message)
-        {
-            await _hubContext.Clients.All.SendAsync("ReceiveCrudOperation", operation, message);
-
-        }
+        
     }
 }
