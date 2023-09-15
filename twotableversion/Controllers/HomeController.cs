@@ -397,6 +397,7 @@ namespace twotableversion.Controllers
 
         // ***************************************************************************************************************
 
+
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -406,10 +407,18 @@ namespace twotableversion.Controllers
                 return NotFound(); // Handle the case when the record is not found
             }
 
+            //if (existingData.IsLocked)
+            //{
+            //    // You can handle this situation by displaying a message or taking another action.
+
+            //   return RedirectToAction("Index", new { errorMessage = "Bu kayıt şu anda başka bir kullanıcı tarafından düzenlenmektedir." });
+
+            //}
             if (existingData.IsLocked)
             {
-                // You can handle this situation by displaying a message or taking another action.
-                return RedirectToAction("Index", new { errorMessage = "Bu kayıt şu anda başka bir kullanıcı tarafından düzenlenmektedir." });
+                ViewBag.ErrorMessage = "Bu kayıt şu anda başka bir kullanıcı tarafından düzenlenmektedir.";
+                /*return View("Error");*/ // Display a custom error view with the alert message
+                return View("EditError");
             }
 
             existingData.IsLocked = true;
@@ -454,7 +463,8 @@ namespace twotableversion.Controllers
             if (!existingData.IsLocked)
             {
                 // The record is not locked by the current user; handle this situation.
-                return RedirectToAction("Index", new { errorMessage = "Bu kayıt size kilitleme yapılmadan önce düzenlenmiş olabilir." });
+                  return RedirectToAction("Index", new { errorMessage = "Bu kayıt size kilitleme yapılmadan önce düzenlenmiş olabilir." });
+                
             }
 
             // Update the fields with new values
