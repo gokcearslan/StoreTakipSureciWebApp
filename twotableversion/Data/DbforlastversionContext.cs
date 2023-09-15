@@ -67,6 +67,16 @@ public partial class DbforlastversionContext : DbContext
             entity.Property(e => e.satırID)
                 .ValueGeneratedOnAdd() // Specify that it should be auto-generated
                 .HasColumnName("Satır Id");
+            entity.Property(e => e.RowVersion)
+           .HasColumnType("timestamp")
+           .HasColumnName("Row Version");
+
+
+
+            entity.Property(e => e.IsLocked)
+              .HasColumnType("bit")
+              .HasColumnName("IsLocked");
+
 
             entity.Property(e => e.BeTaşımaKatmanları)
                 .HasColumnType("text")
@@ -143,16 +153,7 @@ public partial class DbforlastversionContext : DbContext
 
 
 
-            entity.Property(e => e.RowVersion)
-                .HasColumnType("timestamp")
-                .HasColumnName("Row Version");
-
-
-
-            entity.Property(e => e.IsLocked)
-              .HasColumnType("bit")
-              .HasColumnName("IsLocked");
-
+       
             //entity.Property(p => p.RowVersion).IsConcurrencyToken();
         });
 

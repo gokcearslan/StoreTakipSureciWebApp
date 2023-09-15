@@ -10,7 +10,7 @@ namespace twotableversion.Models
     {
         //public int SelectedTakvimId { get; set; }
         //public string SelectedUygulamaAdı { get; set; }
-      
+
         //public List<Uygulamalar> SelectedUygulamaList { get; set; }
         //public List<Uygulamalar> UygulamaList { get; set; }
         public List<Uygulamalar> AllUygulamaList { get; set; }
@@ -18,6 +18,11 @@ namespace twotableversion.Models
         //public List<SelectList> SelectedRowList { get; set; } 
 
         public bool FilterApplied { get; set; }
+        public bool IsLocked { get; set; }
+
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+
         public string version { get; set; }
         public int satırId { get; set; }
         public int? TakvimId { get; set; }
@@ -46,10 +51,7 @@ namespace twotableversion.Models
         public string Islem { get; set; }
 
 
-        public bool IsLocked { get; set; }
 
-        [Timestamp]
-        public byte[] RowVersion { get; set; }
     }
 }
 

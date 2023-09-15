@@ -542,7 +542,7 @@ namespace twotableversion.Controllers
 
                     // headers
                     var properties = typeof(Uygulamalar).GetProperties();
-                    for (int i = 0; i < properties.Length; i++)
+                    for (int i = 3; i < properties.Length; i++)
                     {
                         worksheet.Cells[1, i + 1].Value = properties[i].Name;
                     }
@@ -550,7 +550,7 @@ namespace twotableversion.Controllers
                     // data
                     for (int row = 0; row < data.Count; row++)
                     {
-                        for (int col = 0; col < properties.Length; col++)
+                        for (int col = 3; col < properties.Length; col++)
                         {
                             worksheet.Cells[row + 2, col + 1].Value = properties[col].GetValue(data[row]);
                         }
