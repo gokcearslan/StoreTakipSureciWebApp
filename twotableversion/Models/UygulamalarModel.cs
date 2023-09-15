@@ -13,7 +13,7 @@ namespace twotableversion.Models
 
         //public List<Uygulamalar> SelectedUygulamaList { get; set; }
         //public List<Uygulamalar> UygulamaList { get; set; }
-        public List<Uygulamalar> AllUygulamaList { get; set; }
+        public List<Uygulamalar>? AllUygulamaList { get; set; }
         //public List<Uygulamalar> SelectedId { get; set; }
         //public List<SelectList> SelectedRowList { get; set; } 
 
@@ -23,9 +23,14 @@ namespace twotableversion.Models
         [Timestamp]
         public byte[] RowVersion { get; set; }
 
-        public string version { get; set; }
+        public string? version { get; set; }
         public int satırId { get; set; }
+
+        [Required(ErrorMessage = "Lütfen Ay/Yıl kodu  giriniz.")]
+
         public int? TakvimId { get; set; }
+
+        [Required(ErrorMessage = "Lütfen Uygulama Adı giriniz.")]
         public string? UygulamaAdı { get; set; }
         public string? EtkiAlanı { get; set; }
         public string? TalepBug { get; set; }

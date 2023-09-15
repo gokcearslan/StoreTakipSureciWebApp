@@ -15,8 +15,11 @@
     }
 }
 
-@using (Html.BeginForm("Save", "Home", FormMethod.Post))
-{
+
+
+
+@using (Html.BeginForm("SaveTakvim", "Home", FormMethod.Post))
+{ 
 
     <div class="form-group">
         <label for="UygulamaAdı">Uygulama Adı:</label>
@@ -34,7 +37,8 @@
     </div>
     
 
-    <button type="submit" class="btn btn-primary" style="background-color: #FFCA4F; color: white; margin-top:0px margin-left:0px">Save</button>
+    <button type="submit" class="btn btn-primary" style="background-color: #FFCA4F; color: white; margin-top:0px ;margin-left:0px">Save</button>
+   
 }
 
 

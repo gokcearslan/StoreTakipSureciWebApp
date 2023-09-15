@@ -7,7 +7,6 @@ using OfficeOpenXml;
 using System.Diagnostics;
 using twotableversion.Data;
 using Microsoft.AspNetCore.Http;
-
 //using twotableversion.Hubs;
 using twotableversion.Models;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
@@ -49,6 +48,7 @@ namespace twotableversion.Controllers
         }
 
         [HttpPost]
+
         public IActionResult DisplayData(string selectedTakvimId, string selectedUygulamaAdi, string errorMessage)
         {
 
@@ -58,13 +58,8 @@ namespace twotableversion.Controllers
                     .Where(row => row.TakvimId == takvimId && row.UygulamaAdı == selectedUygulamaAdi)
                 .ToList();
 
-                //HttpContext.Session.Set<List<Uygulamalar>>("SelectedData", data);
-
-
                 ViewBag.SelectedTakvimId = takvimId;
                 ViewBag.SelectedUygulamaAdi = selectedUygulamaAdi;
-                //ViewBag.ErrorMessage = errorMessage; // Pass the error message to the view
-
 
                 return View(data);
 
@@ -117,11 +112,9 @@ namespace twotableversion.Controllers
 
                     _dbforlastversionContext.Uygulamalars.Add(newUygulama);
                     _dbforlastversionContext.SaveChanges();
-                    //await NotifyClients("Save", "A new record has been created.");
-                    //var selectedData = HttpContext.Session.Get<List<Uygulamalar>>("SelectedData");
+                    //return RedirectToAction("DisplayData", new { selectedTakvimId = uygulamalar.TakvimId, selectedUygulamaAdi = uygulamalar.UygulamaAdı });
 
-
-                    return RedirectToAction("Index"); // Redirect to the appropriate action
+                    return RedirectToAction("Index");
                 }
             }
 
@@ -143,6 +136,8 @@ namespace twotableversion.Controllers
         {
             return View();
         }
+
+
 
         [HttpPost]
         public IActionResult SaveTakvim(UygulamalarModel uygulamalar)
@@ -407,17 +402,9 @@ namespace twotableversion.Controllers
                 return NotFound(); // Handle the case when the record is not found
             }
 
-            //if (existingData.IsLocked)
-            //{
-            //    // You can handle this situation by displaying a message or taking another action.
-
-            //   return RedirectToAction("Index", new { errorMessage = "Bu kayıt şu anda başka bir kullanıcı tarafından düzenlenmektedir." });
-
-            //}
             if (existingData.IsLocked)
             {
-                ViewBag.ErrorMessage = "Bu kayıt şu anda başka bir kullanıcı tarafından düzenlenmektedir.";
-                /*return View("Error");*/ // Display a custom error view with the alert message
+                //ViewBag.ErrorMessage = "Bu kayıt şu anda başka bir kullanıcı tarafından düzenlenmektedir.";
                 return View("EditError");
             }
 
@@ -451,6 +438,8 @@ namespace twotableversion.Controllers
 
             return View(uygulamalar);
         }
+
+        
 
         [HttpPost]
         public IActionResult Edit(int id, Models.UygulamalarModel uygulamalar)
@@ -571,147 +560,23 @@ namespace twotableversion.Controllers
             }
         }
 
-        //[HttpPost]
-        //public IActionResult ImportFromExcel(IFormFile excelFile)
-        //{
-        //    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
-        //    if (excelFile != null && excelFile.Length > 0)
-        //    {
-        //        using (var stream = new MemoryStream())
-        //        {
-        //            excelFile.CopyTo(stream);
-
-        //            using (var package = new ExcelPackage(stream))
-        //            {
-        //                var worksheet = package.Workbook.Worksheets[0]; // Assuming the data is in the first worksheet.
-
-        //                var rowCount = worksheet.Dimension.Rows;
-        //                var colCount = worksheet.Dimension.Columns;
-
-        //                var importedData = new List<Uygulamalar>();
-
-        //                for (int row = 2; row <= rowCount; row++) // Start from the second row to skip headers.
-        //                {
-        //                    var rowData = new Uygulamalar();
-
-        //                    for (int col = 1; col <= colCount; col++)
-        //                    {
-        //                        var cellValue = worksheet.Cells[row, col].Value;
-
-        //                        // Assuming the order of columns in the Excel file matches the Uygulamalar model.
-        //                        switch (col)
-        //                        {
-        //                            case 1:
-        //                                rowData.UygulamaAdı = cellValue?.ToString();
-        //                                break;
-        //                            case 2:
-        //                                int takvimId;
-        //                                if (int.TryParse(cellValue?.ToString(), out takvimId))
-        //                                {
-        //                                    rowData.TakvimId = takvimId;
-        //                                }
-        //                                break;
-        //                            case 3:
-        //                                rowData.EtkiAlanı = cellValue?.ToString();
-        //                                break;
-        //                            case 4:
-        //                                rowData.TalepBug = cellValue?.ToString();
-        //                                break;
-        //                            case 5:
-        //                                rowData.BulguDurumu = cellValue?.ToString();
-        //                                break;
-        //                            case 6:
-        //                                rowData.Segment = cellValue?.ToString();
-        //                                break;
-        //                            case 7:
-        //                                rowData.KktyeGönderİldİMİ = cellValue?.ToString();
-        //                                break;
-        //                            case 8:
-        //                                rowData.KktOnayiAlindiMi = cellValue?.ToString();
-        //                                break;
-        //                            case 9:
-        //                                rowData.Notlar = cellValue?.ToString();
-        //                                break;
-        //                            case 10:
-        //                                rowData.İlgiliAnalist = cellValue?.ToString();
-        //                                break;
-        //                            case 11:
-        //                                rowData.MergeDurumuIos = cellValue?.ToString();
-        //                                break;
-        //                            case 12:
-        //                                rowData.MergeDurumuAnd = cellValue?.ToString();
-        //                                break;
-        //                            case 13:
-        //                                rowData.MergeDurumuBe = cellValue?.ToString();
-        //                                break;
-        //                            case 14:
-        //                                rowData.İlgiliIosDeveloper = cellValue?.ToString();
-        //                                break;
-        //                            case 15:
-        //                                rowData.İlgiliAndroidDeveloper = cellValue?.ToString();
-        //                                break;
-        //                            case 16:
-        //                                rowData.İlgiliBeDeveloper = cellValue?.ToString();
-        //                                break;
-        //                            case 17:
-        //                                rowData.BeTaşımaKatmanları = cellValue?.ToString();
-        //                                break;
-        //                            case 18:
-        //                                rowData.GeçİşZorunluluğu = cellValue?.ToString();
-        //                                break;
-        //                            case 19:
-        //                                int senaryoId;
-        //                                if (int.TryParse(cellValue?.ToString(), out senaryoId))
-        //                                {
-        //                                    rowData.UiApiSenaryoId = senaryoId;
-        //                                }
-        //                                break;
-        //                                // Add more cases for additional columns as needed.
-        //                        }
-        //                    }
-
-        //                    importedData.Add(rowData);
-        //                }
-
-        //                _dbforlastversionContext.Uygulamalars.AddRange(importedData);
-        //                _dbforlastversionContext.SaveChanges();
-
-        //                return RedirectToAction("Index"); // Redirect to a page after successful import.
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        // Handle the case where no file was uploaded or the file is empty.
-        //        // You can return an error message or perform appropriate error handling.
-        //        return View("ErrorView"); // Replace "ErrorView" with the name of your error view.
-        //    }
-        //}
-
-
-        //[HttpPost]
-        //public async Task<ActionResult> ImportFile()
-        //{
-        //    return View("Index");
-        //}
-
+       
 
 
 
         // Version bilgisini görüntülemek için
 
-        public IActionResult Details(string version)
-        {
-            var uygulama = _dbforlastversionContext.Uygulamalars.FirstOrDefault(u => u.Version == version);
-            if (uygulama == null)
-            {
-                return NotFound();
-            }
+        //public IActionResult Details(string version)
+        //{
+        //    var uygulama = _dbforlastversionContext.Uygulamalars.FirstOrDefault(u => u.Version == version);
+        //    if (uygulama == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            // Pass the specific Uygulamalar object to the view
-            return View(uygulama);
-        }
+        //    // Pass the specific Uygulamalar object to the view
+        //    return View(uygulama);
+        //}
 
 
         public IActionResult ResultAction()
