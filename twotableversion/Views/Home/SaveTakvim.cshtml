@@ -3,6 +3,9 @@
 
 <h2>başlık </h2>
 
+<input type="hidden" asp-for="RowVersion" />
+
+
 @if (TempData["SaveStatus"] != null)
 {
     int status = Convert.ToInt32(TempData["SaveStatus"]);

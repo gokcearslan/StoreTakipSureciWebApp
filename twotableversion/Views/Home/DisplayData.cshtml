@@ -14,9 +14,15 @@
 <input type="text" id="searchInput" placeholder="Search">
 <button onclick="searchInTable()" style="background-color: #FFCA4F; color: white;">Search</button>
 
+
 <a href="/Home/Save" style="color:#e68a06;  margin-top:10px; margin-left:50px;">Yeni satır ekle</a>
 
 
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
 
 
 @*

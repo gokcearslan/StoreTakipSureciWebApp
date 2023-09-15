@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace twotableversion.Data;
 
 public partial class Uygulamalar
 {
-
+    public bool IsLocked { get; set; }
     public string? Version { get; set; }
     public string? UygulamaAdı { get; set; }
 
@@ -48,6 +49,9 @@ public partial class Uygulamalar
     public int? UiApiSenaryoId { get; set; }
 
     public int? satırID { get; set; }
+
+    [Timestamp]
+    public byte[] RowVersion { get; set; }
 
 
 

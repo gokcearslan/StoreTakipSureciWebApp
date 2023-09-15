@@ -8,11 +8,12 @@
 <br />
 
 
+<input type="hidden" asp-for="RowVersion" />
 
 
 @using (Html.BeginForm("SaveTakvim", "Home", FormMethod.Get))
 {
-    <input type="submit" style="background-color: #FFCA4F; color: white; margin-top:0px margin-left:0px" value="Yeni satır ekle"  class="btn btn-primary" />
+    <input type="submit" style="background-color: #FFCA4F; color: white; margin-top:0px margin-left:0px" value="Yeni Paket "  class="btn btn-primary" />
 }
 
 @if (TempData["SaveStatus"] != null)
@@ -34,6 +35,19 @@
     if (status == 1)
     {
         <span class="alert alert-success">Silindi</span>
+    }
+    else
+    {
+        <span class="alert alert-danger">Silme Sırasında HATA! oluştu</span>
+    }
+}
+
+@if (TempData["AynıAnda"] != null)
+{
+    int status = Convert.ToInt32(TempData["DeleteStatus"]);
+    if (status == 1)
+    {
+        <span class="alert alert-success">Başka bir kullanıcı bu satırı düzenliyor. Lütfen daha sonra tekrar deneyin.</span>
     }
     else
     {

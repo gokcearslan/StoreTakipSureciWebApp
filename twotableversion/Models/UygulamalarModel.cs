@@ -44,6 +44,12 @@ namespace twotableversion.Models
         //[Required(ErrorMessage = "Senaryo ID farklı olmalıdır.")]
         public int? SenaryoID { get; set; }
         public string Islem { get; set; }
+
+
+        public bool IsLocked { get; set; }
+
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
     }
 }
 

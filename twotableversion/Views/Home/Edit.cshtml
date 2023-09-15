@@ -1,6 +1,22 @@
 ﻿@model twotableversion.Models.UygulamalarModel
 @using (Html.BeginForm("Edit", "Home", FormMethod.Post))
 {
+
+   @* <script>
+        @if (TempData.ContainsKey("ErrorMessage"))
+        {
+            var errorMessage = TempData["ErrorMessage"];
+            <text>
+                alert("@errorMessage");
+            </text>
+        }
+    </script>*@
+
+
+
+    <input type="hidden" asp-for="RowVersion" />
+
+
     <table width="40%">
         @*<tr>
     <td style=" width:20%">Takvim ID:</td>

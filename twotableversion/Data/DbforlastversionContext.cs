@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using twotableversion.Models;
 
 namespace twotableversion.Data;
 
@@ -140,6 +141,19 @@ public partial class DbforlastversionContext : DbContext
                 .HasColumnName("İlgili IOS Developer");
             entity.Property(e => e.TakvimId).HasColumnName("Takvim Id");
 
+
+
+            entity.Property(e => e.RowVersion)
+                .HasColumnType("timestamp")
+                .HasColumnName("Row Version");
+
+
+
+            entity.Property(e => e.IsLocked)
+              .HasColumnType("bit")
+              .HasColumnName("IsLocked");
+
+            //entity.Property(p => p.RowVersion).IsConcurrencyToken();
         });
 
        
