@@ -4,8 +4,8 @@
 }
 
 
-
-<br />
+@*
+<br />*@
 
 
 <input type="hidden" asp-for="RowVersion" />
@@ -72,18 +72,12 @@
                 <label for="selectedUygulamaAdi">Uygulama Adı Seçiniz:</label>
                 @Html.DropDownList("selectedUygulamaAdi", (SelectList)ViewBag.UygulamaAdiOptions, "Select", new { @class = "form-control" })
             </div>
-
-           
-
         </div>
     
-     
-
         <div class="col-md-6">
             <button type="submit" class="btn btn-primary " style="color: white; background-color: #FFCA4F; margin-top:13px; margin-right:100px;">Submit</button>
         </div>
     }
-
 </div>
 
 

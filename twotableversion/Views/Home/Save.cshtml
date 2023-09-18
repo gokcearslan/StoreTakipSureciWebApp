@@ -1,9 +1,17 @@
 ﻿@model twotableversion.Models.UygulamalarModel
+@using twotableversion.Data
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation/1.19.3/jquery.validate.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
 
-<h2>başlık </h2>
+
+
+
+
+
+<h1 style="color: #FCB000;"> @(TempData["SelectedUygulamaAdi"]), @(TempData["SelectedTakvimId"])</h1>
+
+
 <input type="hidden" asp-for="RowVersion" />
 
 
@@ -15,7 +23,8 @@
         <span class="alert alert-success">Data saved successfully!</span>
     }
 }
-
+@*<form method="post" action="/Home/Save">
+*@
 @using (Html.BeginForm("Save", "Home", FormMethod.Post))
 {
     <div class="form-group">
@@ -110,6 +119,8 @@
    
      <button type="submit" class="btn btn-primary" style="background-color: #FFCA4F; color: white; margin-top:0px ;margin-left:0px" >Save</button>
 }
+
+   @* </form>*@
 
 
 

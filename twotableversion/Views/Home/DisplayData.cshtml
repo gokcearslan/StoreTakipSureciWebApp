@@ -51,8 +51,9 @@
         <tr>
            @* <th>Uygulama Adı</th>
             <th>Takvim Id</th>*@
+
             <th>Version</th>
-            <th>Etki Alanı</th>
+            <th >Etki Alanı</th>
             <th>Talep/Bug</th>
             <th>Talep Adı</th>
             <th>Bulgu Durumu</th>
@@ -79,6 +80,8 @@
             <tr>
                @* <td>@item.UygulamaAdı</td>
                 <td>@item.TakvimId</td>*@
+
+
                 <td>@item.Version</td>
                 <td>@item.EtkiAlanı</td>
                 <td>@item.TalepBug</td>
@@ -120,7 +123,7 @@
                     <a href="/Home/Edit/@item.satırID" style="color:#e68a06">Edit</a>&nbsp;|&nbsp;
                 
                     <a href="#" style="color:#e68a06" onclick="showModal(); document.getElementById('confirmDelete').href='/Home/Delete/@item.satırID'">Delete</a>
-                
+
 
                 
                 </td>
@@ -356,6 +359,155 @@
 </script>
 *@
 
+@*<button class="btn btn-primary" id="openSaveModal">Add New Uygulama</button>
 
 
+<!-- The Modal -->
+<div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="saveModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="saveModalLabel">Add New Uygulama</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Your form goes here -->
+                <form id="saveForm">
+                    <div class="form-group">
+                        <label for="c">Version:</label>
+                        <input type="text" class="form-control" id="Version" name="Version">
+                    </div>
+                    <div class="form-group">
+                        <label for="UygulamaAdı">Uygulama Adı:</label>
+                        <input type="text" class="form-control" id="UygulamaAdı" name="UygulamaAdı">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="TakvimId">Takvim Id:</label>
+                        <input type="text" class="form-control" id="TakvimId" name="TakvimId">
+                    </div>
+                    <div class="form-group">
+                        <label for="EtliAlanı">Etki Alanı:</label>
+                        <input type="text" class="form-control" id="EtliAlanı" name="EtliAlanı">
+                    </div>
+                    <div class="form-group">
+                        <label for="TalepBug">Talep/Bug:</label>
+                        <input type="text" class="form-control" id="TalepBug" name="TalepBug">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="TalepAdi">Talep Adı:</label>
+                        <input type="text" class="form-control" id="TalepAdi" name="TalepAdi">
+                    </div>
+                    <div class="form-group">
+                        <label for="BulguDurumu">Bulgu Durumu:</label>
+                        <input type="text" class="form-control" id="BulguDurumu" name="BulguDurumu">
+                    </div>
+                    <div class="form-group">
+                        <label for="Segment">Segment:</label>
+                        <input type="text" class="form-control" id="Segment" name="Segment">
+                    </div>
+                    <div class="form-group">
+                        <label for="KKTYeGonderilme">KKTYE Gönderildi mi?:</label>
+                        <input type="text" class="form-control" id="KKTYeGonderilme" name="KKTYeGonderilme">
+                    </div>
+                    <div class="form-group">
+                        <label for="KKTOnayi">KKTE Onayı Alındı mı?:</label>
+                        <input type="text" class="form-control" id="UygulamaAdı" name="UygulamaAdı">
+                    </div>
+                    <div class="form-group">
+                        <label for="Notlar">Notlar:</label>
+                        <input type="text" class="form-control" id="Notlar" name="Notlar">
+                    </div>
+                    <div class="form-group">
+                        <label for="Analist">İlgili Analist:</label>
+                        <input type="text" class="form-control" id="Analist" name="Analist">
+                    </div>
+                    <div class="form-group">
+                        <label for="mergeIOS">Merge Durumu IOS:</label>
+                        <input type="text" class="form-control" id="mergeIOS" name="mergeIOS">
+                    </div>
+                    <div class="form-group">
+                        <label for="mergeAND">Merge Durumu AND:</label>
+                        <input type="text" class="form-control" id="mergeAND" name="mergeAND">
+                    </div>
+                    <div class="form-group">
+                        <label for="mergeBE">Merge Durumu BE:</label>
+                        <input type="text" class="form-control" id="mergeBE" name="mergeBE">
+                    </div>
+                    <div class="form-group">
+                        <label for="IOSDev">İlgili IOS Developer:</label>
+                        <input type="text" class="form-control" id="IOSDev" name="IOSDev">
+                    </div>
+                    <div class="form-group">
+                        <label for="ANDDev">İlgili Android Developer:</label>
+                        <input type="text" class="form-control" id="ANDDev" name="ANDDev">
+                    </div>
+                    <div class="form-group">
+                        <label for="BEDev">İlgili BE Developer:</label>
+                        <input type="text" class="form-control" id="BEDev" name="BEDev">
+                    </div>
+                    <div class="form-group">
+                        <label for="TasimaKatmanlari">BE Taşıma Katmanları:</label>
+                        <input type="text" class="form-control" id="TasimaKatmanlari" name="TasimaKatmanlari">
+                    </div>
+                    <div class="form-group">
+                        <label for="GecisZorunluluğu">Geçiş Zorunluluğu:</label>
+                        <input type="text" class="form-control" id="GecisZorunluluğu" name="GecisZorunluluğu">
+                    </div>
+                    <div class="form-group">
+                        <label for="SenaryoID">UI/API Senaryo ID:</label>
+                        <input type="int" class="form-control" id="SenaryoID" name="SenaryoID">
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                //<button type="button" class="btn btn-primary" id="saveButton">Save</button>
+                <button type="submit" class="btn btn-primary" style="background-color: #FFCA4F; color: white; margin-top:0px ;margin-left:0px">Save</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+  $(document).ready(function () {
+    // Open the modal when the button is clicked
+    $("#openSaveModal").click(function () {
+      $("#saveModal").modal("show");
+    });
+
+    // Handle form submission
+    $("#saveButton").click(function () {
+      // Serialize the form data
+      var formData = $("#saveForm").serialize();
+
+      // Perform an AJAX POST request to submit the form
+      $.ajax({
+        url: "/Home/Save", // Replace with your controller action URL
+        type: "POST",
+        data: formData,
+        success: function (result) {
+          if (result.success) {
+            // Close the modal if the save was successful
+            $("#saveModal").modal("hide");
+            // Optionally, you can refresh the data table or perform any other actions
+            location.reload(); // Example: Refresh the page
+          } else {
+            // Handle validation errors or other errors if necessary
+            alert("Failed to save Uygulama.");
+          }
+        },
+        error: function () {
+          // Handle AJAX errors if necessary
+          alert("An error occurred while saving Uygulama.");
+        }
+      });
+    });
+  });
+</script>
+*@
 

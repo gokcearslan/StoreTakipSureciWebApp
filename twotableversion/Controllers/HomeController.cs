@@ -12,6 +12,7 @@ using twotableversion.Models;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 
+
 namespace twotableversion.Controllers
 {
     public class HomeController : Controller
@@ -26,7 +27,7 @@ namespace twotableversion.Controllers
             _dbforlastversionContext = dbforlastversionContext;
 
         }
-       
+
 
         public IActionResult Index()
         {
@@ -44,13 +45,25 @@ namespace twotableversion.Controllers
             ViewBag.TakvimIdOptions = new SelectList(takvimIdOptions);
             ViewBag.UygulamaAdiOptions = new SelectList(uygulamaAdiOptions);
 
+
             return View();
+        }
+
+
+        [HttpGet]
+        public IActionResult DisplayData()
+        {
+            int takvimId = Convert.ToInt32(TempData["SelectedTakvimId"]);
+            string selectedUygulamaAdi = Convert.ToString(TempData["SelectedUygulamaAdi"]);
+            return DisplayData(Convert.ToString( takvimId), selectedUygulamaAdi,"");
         }
 
         [HttpPost]
 
         public IActionResult DisplayData(string selectedTakvimId, string selectedUygulamaAdi, string errorMessage)
         {
+
+         
 
             if (int.TryParse(selectedTakvimId, out int takvimId))
             {
@@ -60,6 +73,10 @@ namespace twotableversion.Controllers
 
                 ViewBag.SelectedTakvimId = takvimId;
                 ViewBag.SelectedUygulamaAdi = selectedUygulamaAdi;
+
+                TempData["SelectedTakvimId"] = takvimId;
+                TempData["SelectedUygulamaAdi"] = selectedUygulamaAdi;
+
 
                 return View(data);
 
@@ -71,11 +88,82 @@ namespace twotableversion.Controllers
         }
 
 
+
+
+
         [HttpGet]
         public IActionResult Save()
         {
+        
             return View();
         }
+
+        //[HttpPost]
+        //public IActionResult Save(UygulamalarModel uygulamalar)
+        //{
+        //    try
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            var newUygulama = new Uygulamalar
+        //            {
+
+        //                TakvimId = uygulamalar.TakvimId,
+        //                UygulamaAdı = uygulamalar.UygulamaAdı,
+        //                EtkiAlanı = uygulamalar.EtkiAlanı,
+        //                TalepBug = uygulamalar.TalepBug,
+        //                TalepAdı = uygulamalar.TalepAdi,
+        //                BulguDurumu = uygulamalar.BulguDurumu,
+        //                Segment = uygulamalar.Segment,
+        //                KktyeGönderİldİMİ = uygulamalar.KKTYeGonderilme,
+        //                KktOnayiAlindiMi = uygulamalar.KKTOnayi,
+        //                Notlar = uygulamalar.Notlar,
+        //                İlgiliAnalist = uygulamalar.Analist,
+        //                MergeDurumuIos = uygulamalar.mergeIOS,
+        //                MergeDurumuAnd = uygulamalar.mergeAND,
+        //                MergeDurumuBe = uygulamalar.mergeBE,
+        //                İlgiliIosDeveloper = uygulamalar.IOSDev,
+        //                İlgiliAndroidDeveloper = uygulamalar.ANDDev,
+        //                İlgiliBeDeveloper = uygulamalar.BEDev,
+        //                BeTaşımaKatmanları = uygulamalar.TasimaKatmanlari,
+        //                GeçİşZorunluluğu = uygulamalar.GecisZorunluluğu,
+        //                UiApiSenaryoId = uygulamalar.SenaryoID,
+        //                Version = uygulamalar.version
+        //            };
+
+
+        //            _dbforlastversionContext.Uygulamalars.Add(newUygulama);
+        //            _dbforlastversionContext.SaveChanges();
+
+        //            // return RedirectToAction("DisplayData", new { selectedTakvimId = uygulamalar.TakvimId, selectedUygulamaAdi = uygulamalar.UygulamaAdı });
+        //            //return RedirectToAction("DisplayData", new
+        //            //{
+        //            //    selectedTakvimId = uygulamalar.TakvimId,
+        //            //    selectedUygulamaAdi = uygulamalar.UygulamaAdı
+        //            //});
+
+        //            var selectedTakvimId = TempData["SelectedTakvimId"];
+        //            var selectedUygulamaAdi = TempData["SelectedUygulamaAdi"];
+
+        //            return RedirectToAction("Index");
+
+
+        //        }
+        //    }
+
+        //    catch (DbUpdateException e)
+        //    {
+        //        // Log the error and handle it gracefully
+        //        Console.WriteLine(e.InnerException.Message);
+        //        TempData["SaveStatus"] = 0;
+        //    }
+
+
+        //    return View(uygulamalar); // Return the view with validation errors
+
+        //}
+
+
 
         [HttpPost]
         public IActionResult Save(UygulamalarModel uygulamalar)
@@ -84,50 +172,137 @@ namespace twotableversion.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var newUygulama = new Uygulamalar
+                    if (ModelState.IsValid)
                     {
+                        var newUygulama = new Uygulamalar
+                        {
 
-                        TakvimId = uygulamalar.TakvimId,
-                        UygulamaAdı = uygulamalar.UygulamaAdı,
-                        EtkiAlanı = uygulamalar.EtkiAlanı,
-                        TalepBug = uygulamalar.TalepBug,
-                        TalepAdı = uygulamalar.TalepAdi,
-                        BulguDurumu = uygulamalar.BulguDurumu,
-                        Segment = uygulamalar.Segment,
-                        KktyeGönderİldİMİ = uygulamalar.KKTYeGonderilme,
-                        KktOnayiAlindiMi = uygulamalar.KKTOnayi,
-                        Notlar = uygulamalar.Notlar,
-                        İlgiliAnalist = uygulamalar.Analist,
-                        MergeDurumuIos = uygulamalar.mergeIOS,
-                        MergeDurumuAnd = uygulamalar.mergeAND,
-                        MergeDurumuBe = uygulamalar.mergeBE,
-                        İlgiliIosDeveloper = uygulamalar.IOSDev,
-                        İlgiliAndroidDeveloper = uygulamalar.ANDDev,
-                        İlgiliBeDeveloper = uygulamalar.BEDev,
-                        BeTaşımaKatmanları = uygulamalar.TasimaKatmanlari,
-                        GeçİşZorunluluğu = uygulamalar.GecisZorunluluğu,
-                        UiApiSenaryoId = uygulamalar.SenaryoID,
-                        Version = uygulamalar.version
-                    };
+                            TakvimId = uygulamalar.TakvimId,
+                            UygulamaAdı = uygulamalar.UygulamaAdı,
+                            EtkiAlanı = uygulamalar.EtkiAlanı,
+                            TalepBug = uygulamalar.TalepBug,
+                            TalepAdı = uygulamalar.TalepAdi,
+                            BulguDurumu = uygulamalar.BulguDurumu,
+                            Segment = uygulamalar.Segment,
+                            KktyeGönderİldİMİ = uygulamalar.KKTYeGonderilme,
+                            KktOnayiAlindiMi = uygulamalar.KKTOnayi,
+                            Notlar = uygulamalar.Notlar,
+                            İlgiliAnalist = uygulamalar.Analist,
+                            MergeDurumuIos = uygulamalar.mergeIOS,
+                            MergeDurumuAnd = uygulamalar.mergeAND,
+                            MergeDurumuBe = uygulamalar.mergeBE,
+                            İlgiliIosDeveloper = uygulamalar.IOSDev,
+                            İlgiliAndroidDeveloper = uygulamalar.ANDDev,
+                            İlgiliBeDeveloper = uygulamalar.BEDev,
+                            BeTaşımaKatmanları = uygulamalar.TasimaKatmanlari,
+                            GeçİşZorunluluğu = uygulamalar.GecisZorunluluğu,
+                            UiApiSenaryoId = uygulamalar.SenaryoID,
+                            Version = uygulamalar.version
+                        };
 
-                    _dbforlastversionContext.Uygulamalars.Add(newUygulama);
-                    _dbforlastversionContext.SaveChanges();
-                    //return RedirectToAction("DisplayData", new { selectedTakvimId = uygulamalar.TakvimId, selectedUygulamaAdi = uygulamalar.UygulamaAdı });
 
-                    return RedirectToAction("Index");
+                        _dbforlastversionContext.Uygulamalars.Add(newUygulama);
+                        _dbforlastversionContext.SaveChanges();
+
+                       
+                        TempData["SelectedTakvimId"] = uygulamalar.TakvimId;
+                        TempData["SelectedUygulamaAdi"] = uygulamalar.UygulamaAdı;
+
+                        return RedirectToAction("DisplayData");
+                    }
                 }
             }
-
             catch (DbUpdateException e)
             {
-                // Log the error and handle it gracefully
-                Console.WriteLine(e.InnerException.Message);
+                // Handle the exception...
                 TempData["SaveStatus"] = 0;
             }
 
-
             return View(uygulamalar); // Return the view with validation errors
         }
+
+
+
+
+
+
+
+        //[HttpGet]
+        //public IActionResult Save()
+        //{
+        //    return View();
+        //}
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult Save(UygulamalarModel uygulamalar)
+        //{
+        //    try
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            var existingRecord = _dbforlastversionContext.Uygulamalars
+        //                .FirstOrDefault(row => row.satırID == uygulamalar.satırId);
+
+        //            if (existingRecord == null)
+        //            {
+        //                var newUygulama = new Uygulamalar
+        //                {
+        //                    TakvimId = uygulamalar.TakvimId,
+        //                    UygulamaAdı = uygulamalar.UygulamaAdı,
+        //                    EtkiAlanı = uygulamalar.EtkiAlanı,
+        //                    TalepBug = uygulamalar.TalepBug,
+        //                    TalepAdı = uygulamalar.TalepAdi,
+        //                    BulguDurumu = uygulamalar.BulguDurumu,
+        //                    Segment = uygulamalar.Segment,
+        //                    KktyeGönderİldİMİ = uygulamalar.KKTYeGonderilme,
+        //                    KktOnayiAlindiMi = uygulamalar.KKTOnayi,
+        //                    Notlar = uygulamalar.Notlar,
+        //                    İlgiliAnalist = uygulamalar.Analist,
+        //                    MergeDurumuIos = uygulamalar.mergeIOS,
+        //                    MergeDurumuAnd = uygulamalar.mergeAND,
+        //                    MergeDurumuBe = uygulamalar.mergeBE,
+        //                    İlgiliIosDeveloper = uygulamalar.IOSDev,
+        //                    İlgiliAndroidDeveloper = uygulamalar.ANDDev,
+        //                    İlgiliBeDeveloper = uygulamalar.BEDev,
+        //                    BeTaşımaKatmanları = uygulamalar.TasimaKatmanlari,
+        //                    GeçİşZorunluluğu = uygulamalar.GecisZorunluluğu,
+        //                    UiApiSenaryoId = uygulamalar.SenaryoID,
+        //                    Version = uygulamalar.version
+        //                };
+
+        //                _dbforlastversionContext.Uygulamalars.Add(newUygulama);
+        //                _dbforlastversionContext.SaveChanges();
+
+        //                if (int.TryParse(newUygulama.TakvimId.ToString(), out int takvimId))
+        //                {
+        //                    var data = _dbforlastversionContext.Uygulamalars
+        //                        .Where(row => row.TakvimId == takvimId && row.UygulamaAdı == newUygulama.UygulamaAdı)
+        //                        .ToList();
+
+        //                    ViewBag.SelectedTakvimId = takvimId;
+        //                    ViewBag.SelectedUygulamaAdi = newUygulama.UygulamaAdı;
+
+        //                    // Implement POST-Redirect-GET pattern
+        //                    return RedirectToAction("DisplayData", new { newUygulama });
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (DbUpdateException e)
+        //    {
+        //        // Log the error and handle it gracefully
+        //        Console.WriteLine(e.InnerException.Message);
+        //        TempData["SaveStatus"] = 0;
+        //    }
+
+        //    return View(uygulamalar); // Return the view with validation errors
+        //}
+
+
+
+
+
 
 
 
@@ -159,7 +334,14 @@ namespace twotableversion.Controllers
                     _dbforlastversionContext.Uygulamalars.Add(newUygulama);
                     _dbforlastversionContext.SaveChanges();
 
-                    return RedirectToAction("Index"); // Redirect to the appropriate action
+                    // return RedirectToAction("Index"); // Redirect to the appropriate action
+
+                    int takvimId = Convert.ToInt32(TempData["SelectedTakvimId"]);
+                    string selectedUygulamaAdi = Convert.ToString(TempData["SelectedUygulamaAdi"]);
+
+
+
+                    return RedirectToAction("DisplayData", new { selectedTakvimId = takvimId, selectedUygulamaAdi = selectedUygulamaAdi, errorMessage = "" });
                 }
             }
             catch (DbUpdateException e)
@@ -482,9 +664,12 @@ namespace twotableversion.Controllers
             existingData.IsLocked = false;
             _dbforlastversionContext.SaveChanges();
 
+                       int takvimId = Convert.ToInt32( TempData["SelectedTakvimId"]);
+                        string selectedUygulamaAdi = Convert.ToString( TempData["SelectedUygulamaAdi"]);
 
+            
 
-            return RedirectToAction("Index");
+            return RedirectToAction("DisplayData", new {  selectedTakvimId = takvimId, selectedUygulamaAdi= selectedUygulamaAdi, errorMessage = "" });
         }
 
         [HttpGet]
@@ -493,7 +678,7 @@ namespace twotableversion.Controllers
             try
             {
                 var existingData = _dbforlastversionContext.Uygulamalars.Find(id);
-                if (existingData != null) // Check if the data exists before attempting to remove it
+                if (existingData != null) 
                 {
                     _dbforlastversionContext.Uygulamalars.Remove(existingData);
                     _dbforlastversionContext.SaveChanges();
@@ -509,7 +694,13 @@ namespace twotableversion.Controllers
                 //TempData["DeleteStatus"] = 0; // An error occurred
             }
 
-            return RedirectToAction("Index");
+            //return RedirectToAction("Index");
+            int takvimId = Convert.ToInt32(TempData["SelectedTakvimId"]);
+            string selectedUygulamaAdi = Convert.ToString(TempData["SelectedUygulamaAdi"]);
+
+
+
+            return RedirectToAction("DisplayData", new { selectedTakvimId = takvimId, selectedUygulamaAdi = selectedUygulamaAdi, errorMessage = "" });
         }
 
         [HttpPost]

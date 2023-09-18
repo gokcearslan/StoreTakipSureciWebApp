@@ -26,11 +26,11 @@ namespace twotableversion.Models
         public string? version { get; set; }
         public int satırId { get; set; }
 
-        [Required(ErrorMessage = "Lütfen Ay/Yıl kodu  giriniz.")]
+        //[Required(ErrorMessage = "Lütfen Ay/Yıl kodu  giriniz.")]
 
         public int? TakvimId { get; set; }
 
-        [Required(ErrorMessage = "Lütfen Uygulama Adı giriniz.")]
+        //[Required(ErrorMessage = "Lütfen Uygulama Adı giriniz.")]
         public string? UygulamaAdı { get; set; }
         public string? EtkiAlanı { get; set; }
         public string? TalepBug { get; set; }
