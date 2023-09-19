@@ -6,6 +6,9 @@ namespace twotableversion.Data;
 
 public partial class Uygulamalar
 {
+
+
+    
     public int? satırID { get; set; }
 
     [Timestamp]

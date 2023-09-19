@@ -1,8 +1,10 @@
 ﻿@model twotableversion.Models.UygulamalarModel
 @using (Html.BeginForm("Edit", "Home", FormMethod.Post))
 {
+  
 
-   @* <script>
+
+    @* <script>
         @if (TempData.ContainsKey("ErrorMessage"))
         {
             var errorMessage = TempData["ErrorMessage"];
@@ -74,7 +76,7 @@
                     <option value=" " ;"></option>
                     <option value="evet" style="background-color:green;">Evet</option>
                     <option value="hayır" style="background-color:red;">Hayır</option>
-      
+
                 </select>
             </td>
         </tr>
@@ -91,25 +93,25 @@
         </tr>
 
 
-      @*  <tr>
-            <td style="width:20%">KKTYE Gönderildi mi?:</td>
-            <td style="width:80%; background-color: @(Model.KKTYeGonderilme.Equals("Yes", StringComparison.OrdinalIgnoreCase) ? "green" : "red")">
-                <select name="KKTYeGonderilme" style="width: 100%;">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                </select>
-            </td>
-        </tr>
+        @*  <tr>
+    <td style="width:20%">KKTYE Gönderildi mi?:</td>
+    <td style="width:80%; background-color: @(Model.KKTYeGonderilme.Equals("Yes", StringComparison.OrdinalIgnoreCase) ? "green" : "red")">
+    <select name="KKTYeGonderilme" style="width: 100%;">
+    <option value="yes">Yes</option>
+    <option value="no">No</option>
+    </select>
+    </td>
+    </tr>
 
-        <tr>
-            <td style="width:20%">KKT Onayı Alındı mı:</td>
-            <td style="width:80%; background-color: @(Model.KKTOnayi.Equals("Yes", StringComparison.OrdinalIgnoreCase) ? "green" : "red")">
-                <select name="KKTOnayi" style="width: 100%;">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                </select>
-            </td>
-        </tr>*@
+    <tr>
+    <td style="width:20%">KKT Onayı Alındı mı:</td>
+    <td style="width:80%; background-color: @(Model.KKTOnayi.Equals("Yes", StringComparison.OrdinalIgnoreCase) ? "green" : "red")">
+    <select name="KKTOnayi" style="width: 100%;">
+    <option value="yes">Yes</option>
+    <option value="no">No</option>
+    </select>
+    </td>
+    </tr>*@
 
 
         <tr>
@@ -182,7 +184,7 @@
             </td>
         </tr>
 
- 
+
 
         <tr>
             <td style=" width:20%">UI/API Senaryo ID:</td>
@@ -195,7 +197,7 @@
 
 
     @*<input type="submit" value="Save"/>*@
-  @*  <input type="submit" value="Edit" />*@
+    @*  <input type="submit" value="Edit" />*@
     <button type="submit" class="btn btn-primary" style="background-color: #FFCA4F; color: white; margin-top:0px ; margin-left:0px">Save</button>
 }
 
@@ -271,4 +273,3 @@
     updateSelectBackgroundColor("kktyeGonderildiSelect");
     updateSelectBackgroundColor("kktOnayiSelect");
 </script>
-

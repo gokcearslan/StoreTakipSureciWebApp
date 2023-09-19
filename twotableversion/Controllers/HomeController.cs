@@ -19,7 +19,7 @@ namespace twotableversion.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private DbforlastversionContext _dbforlastversionContext;
-        
+
 
         public HomeController(ILogger<HomeController> logger, DbforlastversionContext dbforlastversionContext)
         {
@@ -50,26 +50,28 @@ namespace twotableversion.Controllers
         }
 
 
+
         [HttpGet]
         public IActionResult DisplayData()
         {
             int takvimId = Convert.ToInt32(TempData["SelectedTakvimId"]);
             string selectedUygulamaAdi = Convert.ToString(TempData["SelectedUygulamaAdi"]);
-            return DisplayData(Convert.ToString( takvimId), selectedUygulamaAdi,"");
+            return DisplayData(Convert.ToString(takvimId), selectedUygulamaAdi, "");
         }
 
         [HttpPost]
-
         public IActionResult DisplayData(string selectedTakvimId, string selectedUygulamaAdi, string errorMessage)
         {
-
-         
+            if (string.IsNullOrWhiteSpace(selectedUygulamaAdi)) // Check if the UygulamaAdi is not selected
+            {
+                return View("ErrorView"); // Return the error view
+            }
 
             if (int.TryParse(selectedTakvimId, out int takvimId))
             {
                 var data = _dbforlastversionContext.Uygulamalars
                     .Where(row => row.TakvimId == takvimId && row.UygulamaAdı == selectedUygulamaAdi)
-                .ToList();
+                    .ToList();
 
                 ViewBag.SelectedTakvimId = takvimId;
                 ViewBag.SelectedUygulamaAdi = selectedUygulamaAdi;
@@ -77,91 +79,22 @@ namespace twotableversion.Controllers
                 TempData["SelectedTakvimId"] = takvimId;
                 TempData["SelectedUygulamaAdi"] = selectedUygulamaAdi;
 
-
                 return View(data);
-
             }
             else
             {
-                return View("ErrorView"); // Replace "ErrorView" with the name of your error view.
+                return View("ErrorView"); // Return the error view
             }
         }
-
-
-
 
 
         [HttpGet]
         public IActionResult Save()
         {
-        
+
             return View();
         }
 
-        //[HttpPost]
-        //public IActionResult Save(UygulamalarModel uygulamalar)
-        //{
-        //    try
-        //    {
-        //        if (ModelState.IsValid)
-        //        {
-        //            var newUygulama = new Uygulamalar
-        //            {
-
-        //                TakvimId = uygulamalar.TakvimId,
-        //                UygulamaAdı = uygulamalar.UygulamaAdı,
-        //                EtkiAlanı = uygulamalar.EtkiAlanı,
-        //                TalepBug = uygulamalar.TalepBug,
-        //                TalepAdı = uygulamalar.TalepAdi,
-        //                BulguDurumu = uygulamalar.BulguDurumu,
-        //                Segment = uygulamalar.Segment,
-        //                KktyeGönderİldİMİ = uygulamalar.KKTYeGonderilme,
-        //                KktOnayiAlindiMi = uygulamalar.KKTOnayi,
-        //                Notlar = uygulamalar.Notlar,
-        //                İlgiliAnalist = uygulamalar.Analist,
-        //                MergeDurumuIos = uygulamalar.mergeIOS,
-        //                MergeDurumuAnd = uygulamalar.mergeAND,
-        //                MergeDurumuBe = uygulamalar.mergeBE,
-        //                İlgiliIosDeveloper = uygulamalar.IOSDev,
-        //                İlgiliAndroidDeveloper = uygulamalar.ANDDev,
-        //                İlgiliBeDeveloper = uygulamalar.BEDev,
-        //                BeTaşımaKatmanları = uygulamalar.TasimaKatmanlari,
-        //                GeçİşZorunluluğu = uygulamalar.GecisZorunluluğu,
-        //                UiApiSenaryoId = uygulamalar.SenaryoID,
-        //                Version = uygulamalar.version
-        //            };
-
-
-        //            _dbforlastversionContext.Uygulamalars.Add(newUygulama);
-        //            _dbforlastversionContext.SaveChanges();
-
-        //            // return RedirectToAction("DisplayData", new { selectedTakvimId = uygulamalar.TakvimId, selectedUygulamaAdi = uygulamalar.UygulamaAdı });
-        //            //return RedirectToAction("DisplayData", new
-        //            //{
-        //            //    selectedTakvimId = uygulamalar.TakvimId,
-        //            //    selectedUygulamaAdi = uygulamalar.UygulamaAdı
-        //            //});
-
-        //            var selectedTakvimId = TempData["SelectedTakvimId"];
-        //            var selectedUygulamaAdi = TempData["SelectedUygulamaAdi"];
-
-        //            return RedirectToAction("Index");
-
-
-        //        }
-        //    }
-
-        //    catch (DbUpdateException e)
-        //    {
-        //        // Log the error and handle it gracefully
-        //        Console.WriteLine(e.InnerException.Message);
-        //        TempData["SaveStatus"] = 0;
-        //    }
-
-
-        //    return View(uygulamalar); // Return the view with validation errors
-
-        //}
 
 
 
@@ -204,7 +137,7 @@ namespace twotableversion.Controllers
                         _dbforlastversionContext.Uygulamalars.Add(newUygulama);
                         _dbforlastversionContext.SaveChanges();
 
-                       
+
                         TempData["SelectedTakvimId"] = uygulamalar.TakvimId;
                         TempData["SelectedUygulamaAdi"] = uygulamalar.UygulamaAdı;
 
@@ -227,77 +160,7 @@ namespace twotableversion.Controllers
 
 
 
-        //[HttpGet]
-        //public IActionResult Save()
-        //{
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult Save(UygulamalarModel uygulamalar)
-        //{
-        //    try
-        //    {
-        //        if (ModelState.IsValid)
-        //        {
-        //            var existingRecord = _dbforlastversionContext.Uygulamalars
-        //                .FirstOrDefault(row => row.satırID == uygulamalar.satırId);
-
-        //            if (existingRecord == null)
-        //            {
-        //                var newUygulama = new Uygulamalar
-        //                {
-        //                    TakvimId = uygulamalar.TakvimId,
-        //                    UygulamaAdı = uygulamalar.UygulamaAdı,
-        //                    EtkiAlanı = uygulamalar.EtkiAlanı,
-        //                    TalepBug = uygulamalar.TalepBug,
-        //                    TalepAdı = uygulamalar.TalepAdi,
-        //                    BulguDurumu = uygulamalar.BulguDurumu,
-        //                    Segment = uygulamalar.Segment,
-        //                    KktyeGönderİldİMİ = uygulamalar.KKTYeGonderilme,
-        //                    KktOnayiAlindiMi = uygulamalar.KKTOnayi,
-        //                    Notlar = uygulamalar.Notlar,
-        //                    İlgiliAnalist = uygulamalar.Analist,
-        //                    MergeDurumuIos = uygulamalar.mergeIOS,
-        //                    MergeDurumuAnd = uygulamalar.mergeAND,
-        //                    MergeDurumuBe = uygulamalar.mergeBE,
-        //                    İlgiliIosDeveloper = uygulamalar.IOSDev,
-        //                    İlgiliAndroidDeveloper = uygulamalar.ANDDev,
-        //                    İlgiliBeDeveloper = uygulamalar.BEDev,
-        //                    BeTaşımaKatmanları = uygulamalar.TasimaKatmanlari,
-        //                    GeçİşZorunluluğu = uygulamalar.GecisZorunluluğu,
-        //                    UiApiSenaryoId = uygulamalar.SenaryoID,
-        //                    Version = uygulamalar.version
-        //                };
-
-        //                _dbforlastversionContext.Uygulamalars.Add(newUygulama);
-        //                _dbforlastversionContext.SaveChanges();
-
-        //                if (int.TryParse(newUygulama.TakvimId.ToString(), out int takvimId))
-        //                {
-        //                    var data = _dbforlastversionContext.Uygulamalars
-        //                        .Where(row => row.TakvimId == takvimId && row.UygulamaAdı == newUygulama.UygulamaAdı)
-        //                        .ToList();
-
-        //                    ViewBag.SelectedTakvimId = takvimId;
-        //                    ViewBag.SelectedUygulamaAdi = newUygulama.UygulamaAdı;
-
-        //                    // Implement POST-Redirect-GET pattern
-        //                    return RedirectToAction("DisplayData", new { newUygulama });
-        //                }
-        //            }
-        //        }
-        //    }
-        //    catch (DbUpdateException e)
-        //    {
-        //        // Log the error and handle it gracefully
-        //        Console.WriteLine(e.InnerException.Message);
-        //        TempData["SaveStatus"] = 0;
-        //    }
-
-        //    return View(uygulamalar); // Return the view with validation errors
-        //}
+ 
 
 
 
@@ -334,14 +197,7 @@ namespace twotableversion.Controllers
                     _dbforlastversionContext.Uygulamalars.Add(newUygulama);
                     _dbforlastversionContext.SaveChanges();
 
-                    // return RedirectToAction("Index"); // Redirect to the appropriate action
-
-                    int takvimId = Convert.ToInt32(TempData["SelectedTakvimId"]);
-                    string selectedUygulamaAdi = Convert.ToString(TempData["SelectedUygulamaAdi"]);
-
-
-
-                    return RedirectToAction("DisplayData", new { selectedTakvimId = takvimId, selectedUygulamaAdi = selectedUygulamaAdi, errorMessage = "" });
+                    return RedirectToAction("Index"); 
                 }
             }
             catch (DbUpdateException e)
@@ -354,225 +210,6 @@ namespace twotableversion.Controllers
             return View(uygulamalar); // Return the view with validation errors
         }
 
-
-        // ******************************************************************************************
-        // orijinal olan
-
-        //[HttpGet]
-        //public IActionResult Edit(int id)
-        //{
-        //    var existingData = _dbforlastversionContext.Uygulamalars.Find(id);
-        //    if (existingData == null)
-        //    {
-        //        return NotFound(); // Handle the case when the record is not found
-        //    }
-
-        //    var uygulamalar = new Models.UygulamalarModel
-        //    {
-        //        //TakvimId=existingData.TakvimID,
-        //        UygulamaAdı = existingData.UygulamaAdı,
-        //        EtkiAlanı = existingData.EtkiAlanı,
-        //        TalepBug = existingData.TalepBug,
-        //        TalepAdi = existingData.TalepAdı,
-        //        BulguDurumu = existingData.BulguDurumu,
-        //        Segment = existingData.Segment,
-        //        KKTYeGonderilme = existingData.KktyeGönderİldİMİ,
-        //        KKTOnayi = existingData.KktOnayiAlindiMi,
-        //        Notlar = existingData.Notlar,
-        //        Analist = existingData.İlgiliAnalist,
-        //        mergeIOS = existingData.MergeDurumuIos,
-        //        mergeAND = existingData.MergeDurumuAnd,
-        //        mergeBE = existingData.MergeDurumuBe,
-        //        IOSDev = existingData.İlgiliIosDeveloper,
-        //        ANDDev = existingData.İlgiliAndroidDeveloper,
-        //        BEDev = existingData.İlgiliBeDeveloper,
-        //        TasimaKatmanlari = existingData.BeTaşımaKatmanları,
-        //        GecisZorunluluğu = existingData.GeçİşZorunluluğu,
-        //        SenaryoID = existingData.UiApiSenaryoId,
-        //        version = existingData.Version,
-
-        //    };
-
-        //    return View(uygulamalar);
-        //}
-
-        //[HttpPost]
-        //public IActionResult Edit(int id, Models.UygulamalarModel uygulamalar)
-        //{
-        //    var existingData = _dbforlastversionContext.Uygulamalars.Find(id);
-        //    if (existingData == null)
-        //    {
-        //        return NotFound(); // Handle the case when the record is not found
-        //    }
-
-        //    // Update the fields with new values
-        //    //existingData.TakvimID = uygulamalar.TakvimId;
-        //    //existingData.TakvimID = uygulamalar.TakvimId;
-        //    existingData.EtkiAlanı = uygulamalar.EtkiAlanı;
-        //    existingData.TalepBug = uygulamalar.TalepBug;
-        //    existingData.TalepAdı = uygulamalar.TalepAdi;
-        //    existingData.BulguDurumu = uygulamalar.BulguDurumu;
-        //    existingData.Segment = uygulamalar.Segment;
-        //    existingData.KktyeGönderİldİMİ = uygulamalar.KKTYeGonderilme;
-        //    existingData.KktOnayiAlindiMi = uygulamalar.KKTOnayi;
-        //    existingData.Notlar = uygulamalar.Notlar;
-        //    existingData.İlgiliAnalist = uygulamalar.Analist;
-        //    existingData.MergeDurumuIos = uygulamalar.mergeIOS;
-        //    existingData.MergeDurumuAnd = uygulamalar.mergeAND;
-        //    existingData.MergeDurumuBe = uygulamalar.mergeBE;
-        //    existingData.İlgiliIosDeveloper = uygulamalar.IOSDev;
-        //    existingData.İlgiliAndroidDeveloper = uygulamalar.ANDDev;
-        //    existingData.İlgiliBeDeveloper = uygulamalar.BEDev;
-        //    existingData.BeTaşımaKatmanları = uygulamalar.TasimaKatmanlari;
-        //    existingData.GeçİşZorunluluğu = uygulamalar.GecisZorunluluğu;
-        //    existingData.UiApiSenaryoId = uygulamalar.SenaryoID;
-        //    existingData.Version = uygulamalar.version;
-
-        //    _dbforlastversionContext.SaveChanges();
-
-        //    return RedirectToAction("Index");
-        //}
-
-
-        //[HttpGet]
-        //public IActionResult Delete(int id)
-        //{
-        //    try
-        //    {
-        //        var existingData = _dbforlastversionContext.Uygulamalars.Find(id);
-        //        if (existingData != null) // Check if the data exists before attempting to remove it
-        //        {
-        //            _dbforlastversionContext.Uygulamalars.Remove(existingData);
-        //            _dbforlastversionContext.SaveChanges();
-        //            //TempData["DeleteStatus"] = 1;
-        //        }
-        //        else
-        //        {
-        //            /*TempData["DeleteStatus"] = 0;*/ // Data not found
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        //TempData["DeleteStatus"] = 0; // An error occurred
-        //    }
-
-        //    return RedirectToAction("Index");
-        //}
-
-        // **************************************************************************************************
-
-
-        // TIME VERSION KULLANDIĞIN
-
-        //[HttpGet]
-        //public IActionResult Edit(int id)
-        //{
-        //    var existingData = _dbforlastversionContext.Uygulamalars.Find(id);
-        //    if (existingData == null)
-        //    {
-        //        return NotFound(); // Handle the case when the record is not found
-        //    }
-
-        //    var uygulamalar = new Models.UygulamalarModel
-        //    {
-        //        //TakvimId=existingData.TakvimID,
-        //        UygulamaAdı = existingData.UygulamaAdı,
-        //        EtkiAlanı = existingData.EtkiAlanı,
-        //        TalepBug = existingData.TalepBug,
-        //        TalepAdi = existingData.TalepAdı,
-        //        BulguDurumu = existingData.BulguDurumu,
-        //        Segment = existingData.Segment,
-        //        KKTYeGonderilme = existingData.KktyeGönderİldİMİ,
-        //        KKTOnayi = existingData.KktOnayiAlindiMi,
-        //        Notlar = existingData.Notlar,
-        //        Analist = existingData.İlgiliAnalist,
-        //        mergeIOS = existingData.MergeDurumuIos,
-        //        mergeAND = existingData.MergeDurumuAnd,
-        //        mergeBE = existingData.MergeDurumuBe,
-        //        IOSDev = existingData.İlgiliIosDeveloper,
-        //        ANDDev = existingData.İlgiliAndroidDeveloper,
-        //        BEDev = existingData.İlgiliBeDeveloper,
-        //        TasimaKatmanlari = existingData.BeTaşımaKatmanları,
-        //        GecisZorunluluğu = existingData.GeçİşZorunluluğu,
-        //        SenaryoID = existingData.UiApiSenaryoId,
-        //        version = existingData.Version,
-
-        //    };
-
-        //    return View(uygulamalar);
-        //}
-
-        //[HttpPost]
-        //public IActionResult Edit(int id, Models.UygulamalarModel uygulamalar)
-        //{
-        //    var existingData = _dbforlastversionContext.Uygulamalars.Find(id);
-        //    if (existingData == null)
-        //    {
-        //        return NotFound(); // Handle the case when the record is not found
-        //    }
-
-        //    // Check if the row version matches
-        //    if (existingData.RowVersion != null && uygulamalar.RowVersion != null && !existingData.RowVersion.SequenceEqual(uygulamalar.RowVersion))
-        //    {
-        //        // Row version mismatch, display an error message
-        //        ModelState.AddModelError("", "Başka bir kullanıcı bu satırda değişiklik yaptı.");
-        //        return View(uygulamalar);
-        //    }
-
-        //    // Update the fields with new values
-        //    //existingData.TakvimID = uygulamalar.TakvimId;
-        //    //existingData.TakvimID = uygulamalar.TakvimId;
-        //    existingData.EtkiAlanı = uygulamalar.EtkiAlanı;
-        //    existingData.TalepBug = uygulamalar.TalepBug;
-        //    existingData.TalepAdı = uygulamalar.TalepAdi;
-        //    existingData.BulguDurumu = uygulamalar.BulguDurumu;
-        //    existingData.Segment = uygulamalar.Segment;
-        //    existingData.KktyeGönderİldİMİ = uygulamalar.KKTYeGonderilme;
-        //    existingData.KktOnayiAlindiMi = uygulamalar.KKTOnayi;
-        //    existingData.Notlar = uygulamalar.Notlar;
-        //    existingData.İlgiliAnalist = uygulamalar.Analist;
-        //    existingData.MergeDurumuIos = uygulamalar.mergeIOS;
-        //    existingData.MergeDurumuAnd = uygulamalar.mergeAND;
-        //    existingData.MergeDurumuBe = uygulamalar.mergeBE;
-        //    existingData.İlgiliIosDeveloper = uygulamalar.IOSDev;
-        //    existingData.İlgiliAndroidDeveloper = uygulamalar.ANDDev;
-        //    existingData.İlgiliBeDeveloper = uygulamalar.BEDev;
-        //    existingData.BeTaşımaKatmanları = uygulamalar.TasimaKatmanlari;
-        //    existingData.GeçİşZorunluluğu = uygulamalar.GecisZorunluluğu;
-        //    existingData.UiApiSenaryoId = uygulamalar.SenaryoID;
-        //    existingData.Version = uygulamalar.version;
-
-        //    _dbforlastversionContext.SaveChanges();
-
-        //    return RedirectToAction("Index");
-        //}
-
-
-
-        //[HttpGet]
-        //public IActionResult Delete(int id, byte[] rowVersion)
-        //{
-        //    var existingData = _dbforlastversionContext.Uygulamalars.Find(id);
-        //    if (existingData == null)
-        //    {
-        //        return NotFound(); // Handle the case when the record is not found
-        //    }
-
-        //    // Check if the row version matches
-        //    if (!existingData.RowVersion.SequenceEqual(rowVersion))
-        //    {
-        //        // Row version mismatch, display an error message
-        //        return RedirectToAction("Index", new { errorMessage = "Başka bir kullanıcı bu satırda değişiklik yaptı." });
-        //    }
-
-        //    // Proceed with the deletion
-        //    _dbforlastversionContext.Uygulamalars.Remove(existingData);
-        //    _dbforlastversionContext.SaveChanges();
-
-        //    return RedirectToAction("Index");
-        //}
-
-        // ***************************************************************************************************************
 
 
         [HttpGet]
@@ -621,7 +258,7 @@ namespace twotableversion.Controllers
             return View(uygulamalar);
         }
 
-        
+
 
         [HttpPost]
         public IActionResult Edit(int id, Models.UygulamalarModel uygulamalar)
@@ -634,8 +271,8 @@ namespace twotableversion.Controllers
             if (!existingData.IsLocked)
             {
                 // The record is not locked by the current user; handle this situation.
-                  return RedirectToAction("Index", new { errorMessage = "Bu kayıt size kilitleme yapılmadan önce düzenlenmiş olabilir." });
-                
+                return RedirectToAction("Index", new { errorMessage = "Bu kayıt size kilitleme yapılmadan önce düzenlenmiş olabilir." });
+
             }
 
             // Update the fields with new values
@@ -660,17 +297,17 @@ namespace twotableversion.Controllers
             existingData.GeçİşZorunluluğu = uygulamalar.GecisZorunluluğu;
             existingData.UiApiSenaryoId = uygulamalar.SenaryoID;
             existingData.Version = uygulamalar.version;
-
             existingData.IsLocked = false;
+
             _dbforlastversionContext.SaveChanges();
-
-                       int takvimId = Convert.ToInt32( TempData["SelectedTakvimId"]);
-                        string selectedUygulamaAdi = Convert.ToString( TempData["SelectedUygulamaAdi"]);
-
-            
-
-            return RedirectToAction("DisplayData", new {  selectedTakvimId = takvimId, selectedUygulamaAdi= selectedUygulamaAdi, errorMessage = "" });
+            int takvimId = Convert.ToInt32(TempData["SelectedTakvimId"]);
+            string selectedUygulamaAdi = Convert.ToString(TempData["SelectedUygulamaAdi"]);
+            return RedirectToAction("DisplayData", new { selectedTakvimId = takvimId, selectedUygulamaAdi = selectedUygulamaAdi, errorMessage = "" });
         }
+
+
+
+
 
         [HttpGet]
         public IActionResult Delete(int id)
@@ -678,7 +315,7 @@ namespace twotableversion.Controllers
             try
             {
                 var existingData = _dbforlastversionContext.Uygulamalars.Find(id);
-                if (existingData != null) 
+                if (existingData != null)
                 {
                     _dbforlastversionContext.Uygulamalars.Remove(existingData);
                     _dbforlastversionContext.SaveChanges();
@@ -751,23 +388,9 @@ namespace twotableversion.Controllers
             }
         }
 
-       
+        
 
 
-
-        // Version bilgisini görüntülemek için
-
-        //public IActionResult Details(string version)
-        //{
-        //    var uygulama = _dbforlastversionContext.Uygulamalars.FirstOrDefault(u => u.Version == version);
-        //    if (uygulama == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    // Pass the specific Uygulamalar object to the view
-        //    return View(uygulama);
-        //}
 
 
         public IActionResult ResultAction()
@@ -785,6 +408,6 @@ namespace twotableversion.Controllers
             };
             return View(errorViewModel);
         }
-        
+
     }
 }

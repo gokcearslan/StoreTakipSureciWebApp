@@ -1,4 +1,5 @@
 ﻿@using twotableversion.Data
+@model List<Uygulamalar>
 
 @{
     ViewData["Title"] = "Display Data";}
@@ -42,6 +43,7 @@
     </tbody>
 </table>
 *@
+
 
 
 
@@ -511,3 +513,19 @@
 </script>
 *@
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".mark-favorite").click(function () {
+            var itemId = $(this).data("id");
+            var isFavorite = $("#favorite_" + itemId).is(":checked");
+            $.post("/Home/MarkFavorite", { id: itemId, isFavorite: isFavorite }, function (data) {
+                if (data.success) {
+                    // Handle success (e.g., change UI elements)
+                } else {
+                    // Handle error
+                }
+            });
+        });
+    });
+</script>

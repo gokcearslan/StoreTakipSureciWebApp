@@ -8,14 +8,9 @@ namespace twotableversion.Models
     [ValidateNever]
     public class UygulamalarModel
     {
-        //public int SelectedTakvimId { get; set; }
-        //public string SelectedUygulamaAdı { get; set; }
-
-        //public List<Uygulamalar> SelectedUygulamaList { get; set; }
-        //public List<Uygulamalar> UygulamaList { get; set; }
+      
         public List<Uygulamalar>? AllUygulamaList { get; set; }
-        //public List<Uygulamalar> SelectedId { get; set; }
-        //public List<SelectList> SelectedRowList { get; set; } 
+
 
         public bool FilterApplied { get; set; }
         public bool IsLocked { get; set; }
@@ -26,11 +21,10 @@ namespace twotableversion.Models
         public string? version { get; set; }
         public int satırId { get; set; }
 
-        //[Required(ErrorMessage = "Lütfen Ay/Yıl kodu  giriniz.")]
 
         public int? TakvimId { get; set; }
 
-        //[Required(ErrorMessage = "Lütfen Uygulama Adı giriniz.")]
+     
         public string? UygulamaAdı { get; set; }
         public string? EtkiAlanı { get; set; }
         public string? TalepBug { get; set; }
