@@ -20,13 +20,7 @@
 
 
     <table width="40%">
-        @*<tr>
-    <td style=" width:20%">Takvim ID:</td>
-    <td style="width:80%">
-    @Html.TextBoxFor(m=>m.TakvimId,new{@class="form-control"})
-    </td>
-    </tr>*@
-
+   
         <tr>
             <td style=" width:20%">Version:</td>
             <td style="width:80%">
@@ -91,28 +85,6 @@
                 </select>
             </td>
         </tr>
-
-
-        @*  <tr>
-    <td style="width:20%">KKTYE Gönderildi mi?:</td>
-    <td style="width:80%; background-color: @(Model.KKTYeGonderilme.Equals("Yes", StringComparison.OrdinalIgnoreCase) ? "green" : "red")">
-    <select name="KKTYeGonderilme" style="width: 100%;">
-    <option value="yes">Yes</option>
-    <option value="no">No</option>
-    </select>
-    </td>
-    </tr>
-
-    <tr>
-    <td style="width:20%">KKT Onayı Alındı mı:</td>
-    <td style="width:80%; background-color: @(Model.KKTOnayi.Equals("Yes", StringComparison.OrdinalIgnoreCase) ? "green" : "red")">
-    <select name="KKTOnayi" style="width: 100%;">
-    <option value="yes">Yes</option>
-    <option value="no">No</option>
-    </select>
-    </td>
-    </tr>*@
-
 
         <tr>
             <td style=" width:20%">Notlar:</td>
@@ -196,61 +168,20 @@
     </table>
 
 
-    @*<input type="submit" value="Save"/>*@
-    @*  <input type="submit" value="Edit" />*@
+   
     <button type="submit" class="btn btn-primary" style="background-color: #FFCA4F; color: white; margin-top:0px ; margin-left:0px">Save</button>
+    <form asp-action="CancelEdit" asp-controller="Home" method="post">
+        <input type="hidden" asp-for="satırId" value="@Model.satırId" />
+        <button type="submit" class="btn btn-danger">Cancel Edit</button>
+    </form>
+
+
+
+
+
 }
 
-@*<script>
-    // Initialize an empty list of favorite tables
-    const favoriteTables = [];
 
-    // Function to add a favorite table
-    function addFavoriteTable() {
-        const favoriteName = prompt("Enter a name for the favorite table:");
-        if (favoriteName) {
-            const newFavoriteTable = { name: favoriteName, rows: [] };
-            favoriteTables.push(newFavoriteTable);
-
-            // Update the list of favorite tables
-            updateFavoriteTablesList();
-
-            // Select the newly created favorite table
-            selectFavoriteTable(newFavoriteTable);
-        }
-    }
-
-    // Function to update the list of favorite tables in the UI
-    function updateFavoriteTablesList() {
-        const favoriteTablesList = document.getElementById("favorite-tables-list");
-        favoriteTablesList.innerHTML = "";
-
-        favoriteTables.forEach((table, index) => {
-            const listItem = document.createElement("li");
-            listItem.textContent = table.name;
-            listItem.addEventListener("click", () => selectFavoriteTable(table));
-            favoriteTablesList.appendChild(listItem);
-        });
-    }
-
-    // Function to select and display a favorite table's content
-    function selectFavoriteTable(table) {
-        const selectedFavoriteTable = document.getElementById("selected-favorite-table");
-        selectedFavoriteTable.innerHTML = "";
-
-        const tableHeader = document.createElement("h3");
-        tableHeader.textContent = `Favorite Table: ${table.name}`;
-        selectedFavoriteTable.appendChild(tableHeader);
-
-        const tableContent = document.createElement("ul");
-        table.rows.forEach((row) => {
-            const rowItem = document.createElement("li");
-            rowItem.textContent = row;
-            tableContent.appendChild(rowItem);
-        });
-        selectedFavoriteTable.appendChild(tableContent);
-    }
-</script>*@
 <script>
     // JavaScript function to update the background color of the select boxes
     function updateSelectBackgroundColor(selectId) {

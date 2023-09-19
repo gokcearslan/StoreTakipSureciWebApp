@@ -7,7 +7,6 @@ using OfficeOpenXml;
 using System.Diagnostics;
 using twotableversion.Data;
 using Microsoft.AspNetCore.Http;
-//using twotableversion.Hubs;
 using twotableversion.Models;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -28,7 +27,6 @@ namespace twotableversion.Controllers
 
         }
 
-
         public IActionResult Index()
         {
             // Retrieve distinct values for TakvimId and UygulamaAdi columns from the database
@@ -48,8 +46,6 @@ namespace twotableversion.Controllers
 
             return View();
         }
-
-
 
         [HttpGet]
         public IActionResult DisplayData()
@@ -94,8 +90,6 @@ namespace twotableversion.Controllers
 
             return View();
         }
-
-
 
 
         [HttpPost]
@@ -154,28 +148,11 @@ namespace twotableversion.Controllers
             return View(uygulamalar); // Return the view with validation errors
         }
 
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
         [HttpGet]
         public IActionResult SaveTakvim()
         {
             return View();
         }
-
-
 
         [HttpPost]
         public IActionResult SaveTakvim(UygulamalarModel uygulamalar)
@@ -209,7 +186,6 @@ namespace twotableversion.Controllers
 
             return View(uygulamalar); // Return the view with validation errors
         }
-
 
 
         [HttpGet]
@@ -258,8 +234,6 @@ namespace twotableversion.Controllers
             return View(uygulamalar);
         }
 
-
-
         [HttpPost]
         public IActionResult Edit(int id, Models.UygulamalarModel uygulamalar)
         {
@@ -307,6 +281,44 @@ namespace twotableversion.Controllers
 
 
 
+        [HttpGet] // Add the HttpGet attribute
+        public IActionResult CancelEdit(int id)
+        {
+           
+               return View();
+        }
+
+       
+
+
+
+        [HttpPost]
+        public IActionResult CancelEdit(int id, Models.UygulamalarModel uygulamalar)
+        {
+            var existingData = _dbforlastversionContext.Uygulamalars.Find(id);
+            if (existingData == null)
+            {
+                return NotFound(); // Handle the case when the record is not found
+            }
+
+            existingData.IsLocked = false;
+            _dbforlastversionContext.SaveChanges();
+
+            // You can redirect the user to a specific page or action after canceling the edit.
+            // For example, you can redirect them to the index page.
+
+            return RedirectToAction("Index");
+
+
+            //int takvimId = Convert.ToInt32(TempData["SelectedTakvimId"]);
+            //string selectedUygulamaAdi = Convert.ToString(TempData["SelectedUygulamaAdi"]);
+            //return RedirectToAction("DisplayData", new { selectedTakvimId = takvimId, selectedUygulamaAdi = selectedUygulamaAdi, errorMessage = "" });
+        }
+
+
+
+
+
 
 
         [HttpGet]
@@ -334,9 +346,6 @@ namespace twotableversion.Controllers
             //return RedirectToAction("Index");
             int takvimId = Convert.ToInt32(TempData["SelectedTakvimId"]);
             string selectedUygulamaAdi = Convert.ToString(TempData["SelectedUygulamaAdi"]);
-
-
-
             return RedirectToAction("DisplayData", new { selectedTakvimId = takvimId, selectedUygulamaAdi = selectedUygulamaAdi, errorMessage = "" });
         }
 
@@ -388,11 +397,7 @@ namespace twotableversion.Controllers
             }
         }
 
-        
-
-
-
-
+     
         public IActionResult ResultAction()
         {
             // Implement the logic to display results or perform actions based on the selected values.
