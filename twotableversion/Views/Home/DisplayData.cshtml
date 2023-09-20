@@ -15,6 +15,9 @@
 <input type="text" id="searchInput" placeholder="Search">
 <button onclick="searchInTable()" style="background-color: #FFCA4F; color: white;">Search</button>
 
+<button onclick="clearSearchResults()" style="background-color: #FFCA4F; color: white;">Clear Search Results</button>
+
+
 
 <a href="/Home/Save" style="color:#e68a06;  margin-top:10px; margin-left:50px;">Yeni satır ekle</a>
 
@@ -251,3 +254,29 @@
         });
     });
 </script>
+
+
+
+
+
+
+
+
+
+<script>
+    // Function to clear search results and display selected uygulamaadı and takvimId
+    function clearSearchResults() {
+        // Clear the search input
+        document.getElementById("searchInput").value = "";
+
+        // Show all table rows (remove the "display: none" style)
+        var rows = document.getElementsByTagName("tr");
+        for (var i = 1; i < rows.length; i++) {
+            rows[i].style.display = "";
+        }
+
+      
+       
+    }
+</script>
+
