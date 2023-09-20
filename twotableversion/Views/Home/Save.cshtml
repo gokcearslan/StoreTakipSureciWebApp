@@ -61,14 +61,34 @@
         <label for="Segment">Segment:</label>
         @Html.TextBoxFor(m => m.Segment, new { @class = "form-control" })
     </div>
-    <div class="form-group">
+
+   @* <div class="form-group">
         <label for="KKTYeGonderilme">KKTYE Gönderildi mi?:</label>
         @Html.TextBoxFor(m => m.KKTYeGonderilme, new { @class = "form-control" })
     </div>
     <div class="form-group">
         <label for="KKTOnayi">KKTE Onayı Alındı mı?:</label>
         @Html.TextBoxFor(m => m.KKTOnayi, new { @class = "form-control" })
+    </div>*@
+
+ @*   <div class="form-group">
+        <label for="KKTYeGonderilme">KKTYE Gönderildi mi?:</label>
+        @Html.TextBoxFor(m => m.KKTYeGonderilme, new { @class = "form-control", oninput = "this.value = this.value.toUpperCase();" })
     </div>
+    <div class="form-group">
+        <label for="KKTOnayi">KKTE Onayı Alındı mı?:</label>
+        @Html.TextBoxFor(m => m.KKTOnayi, new { @class = "form-control", oninput = "this.value = this.value.toUpperCase();" })
+    </div>
+*@
+    <div class="form-group">
+        <label for="KKTYeGonderilme">KKTYE Gönderildi mi?:</label>
+        <input type="text" id="KKTYeGonderilmeInput" name="KKTYeGonderilme" class="form-control" onblur="validateAndConvertToUpperCase(this)">
+    </div>
+    <div class="form-group">
+        <label for="KKTOnayi">KKTE Onayı Alındı mı?:</label>
+        <input type="text" id="KKTOnayiInput" name="KKTOnayi" class="form-control" onblur="validateAndConvertToUpperCase(this)">
+    </div>
+
     <div class="form-group">
         <label for="Notlar">Notlar:</label>
         @Html.TextBoxFor(m => m.Notlar, new { @class = "form-control" })
@@ -123,7 +143,17 @@
 
 }
 
+<script>
+    function validateAndConvertToUpperCase(inputElement) {
+        // Get the input value and convert it to uppercase
+        let inputValue = inputElement.value.trim().toUpperCase();
 
-
-
-
+        // Check if the input is either "EVET" or "HAYIR"
+        if (inputValue === "EVET" || inputValue === "HAYIR") {
+            inputElement.value = inputValue; // Set the uppercase value
+        } else {
+            inputElement.value = ""; // Clear the input if it's not valid
+            alert("Lütfen 'EVET' veya 'HAYIR' yazınız.");
+        }
+    }
+</script>

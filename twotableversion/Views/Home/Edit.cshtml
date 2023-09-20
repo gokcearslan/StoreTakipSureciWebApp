@@ -4,16 +4,6 @@
   
 
 
-    @* <script>
-        @if (TempData.ContainsKey("ErrorMessage"))
-        {
-            var errorMessage = TempData["ErrorMessage"];
-            <text>
-                alert("@errorMessage");
-            </text>
-        }
-    </script>*@
-
 
 
     <input type="hidden" asp-for="RowVersion" />
@@ -69,8 +59,8 @@
             <td style="width:80%">
                 <select name="KKTYeGonderilme" style="width: 100%;" id="kktyeGonderildiSelect">
                     <option value=" " ;"></option>
-                    <option value="evet" style="background-color:green;">Evet</option>
-                    <option value="hayır" style="background-color:red;">Hayır</option>
+                    <option value="EVET" style="background-color:green;">EVET</option>
+                    <option value="HAYIR" style="background-color:red;">HAYIR</option>
 
                 </select>
             </td>
@@ -81,8 +71,8 @@
             <td style="width:80%">
                 <select name="KKTOnayi" style="width: 100%;" id="kktOnayiSelect">
                     <option value=" " ;"></option>
-                    <option value="evet" style="background-color:green;">Evet</option>
-                    <option value="hayır" style="background-color:red;">Hayır</option>
+                    <option value="EVET" style="background-color:green;">EVET</option>
+                    <option value="HAYIR" style="background-color:red;">HAYIR</option>
                 </select>
             </td>
         </tr>
