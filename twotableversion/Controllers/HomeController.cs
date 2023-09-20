@@ -40,6 +40,7 @@ namespace twotableversion.Controllers
                 .Distinct()
                 .ToList();
 
+            UnlockLockedData();
             ViewBag.TakvimIdOptions = new SelectList(takvimIdOptions);
             ViewBag.UygulamaAdiOptions = new SelectList(uygulamaAdiOptions);
 
@@ -49,7 +50,9 @@ namespace twotableversion.Controllers
 
         [HttpGet]
         public IActionResult DisplayData()
+
         {
+            UnlockLockedData();
             int takvimId = Convert.ToInt32(TempData["SelectedTakvimId"]);
             string selectedUygulamaAdi = Convert.ToString(TempData["SelectedUygulamaAdi"]);
             return DisplayData(Convert.ToString(takvimId), selectedUygulamaAdi, "");
@@ -57,6 +60,7 @@ namespace twotableversion.Controllers
 
         [HttpPost]
         public IActionResult DisplayData(string selectedTakvimId, string selectedUygulamaAdi, string errorMessage)
+
         {
             if (string.IsNullOrWhiteSpace(selectedUygulamaAdi)) // Check if the UygulamaAdi is not selected
             {
@@ -74,6 +78,9 @@ namespace twotableversion.Controllers
 
                 TempData["SelectedTakvimId"] = takvimId;
                 TempData["SelectedUygulamaAdi"] = selectedUygulamaAdi;
+               
+                _dbforlastversionContext.SaveChanges();
+
 
                 return View(data);
             }
@@ -82,6 +89,25 @@ namespace twotableversion.Controllers
                 return View("ErrorView"); // Return the error view
             }
         }
+
+
+
+        private void UnlockLockedData()
+        {
+            // Query and identify locked data
+            var lockedData = _dbforlastversionContext.Uygulamalars.Where(row => row.IsLocked).ToList();
+
+            // Unlock the identified locked data
+            foreach (var item in lockedData)
+            {
+                item.IsLocked = false;
+            }
+
+            // Save changes to the database
+            _dbforlastversionContext.SaveChanges();
+        }
+
+
 
 
         [HttpGet]
@@ -322,7 +348,6 @@ namespace twotableversion.Controllers
                 {
                     if (existingData.IsLocked)
                     {
-                        //ViewBag.ErrorMessage = "Bu kayıt şu anda başka bir kullanıcı tarafından düzenlenmektedir.";
                         return View("EditError");
                     }
 
@@ -343,7 +368,6 @@ namespace twotableversion.Controllers
                 //TempData["DeleteStatus"] = 0; // An error occurred
             }
 
-            //return RedirectToAction("Index");
             int takvimId = Convert.ToInt32(TempData["SelectedTakvimId"]);
             string selectedUygulamaAdi = Convert.ToString(TempData["SelectedUygulamaAdi"]);
             return RedirectToAction("DisplayData", new { selectedTakvimId = takvimId, selectedUygulamaAdi = selectedUygulamaAdi, errorMessage = "" });
