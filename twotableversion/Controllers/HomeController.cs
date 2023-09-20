@@ -242,12 +242,12 @@ namespace twotableversion.Controllers
             {
                 return NotFound(); // Handle the case when the record is not found
             }
-            if (!existingData.IsLocked)
-            {
-                // The record is not locked by the current user; handle this situation.
-                return RedirectToAction("Index", new { errorMessage = "Bu kayıt size kilitleme yapılmadan önce düzenlenmiş olabilir." });
+            //if (!existingData.IsLocked)
+            //{
+            // //   The record is not locked by the current user; handle this situation.
+            //    return RedirectToAction("Index", new { errorMessage = "Bu kayıt size kilitleme yapılmadan önce düzenlenmiş olabilir." });
 
-            }
+            //}
 
             // Update the fields with new values
             //existingData.TakvimID = uygulamalar.TakvimId;
@@ -272,7 +272,7 @@ namespace twotableversion.Controllers
             existingData.UiApiSenaryoId = uygulamalar.SenaryoID;
             existingData.Version = uygulamalar.version;
             existingData.IsLocked = false;
-
+            
             _dbforlastversionContext.SaveChanges();
             int takvimId = Convert.ToInt32(TempData["SelectedTakvimId"]);
             string selectedUygulamaAdi = Convert.ToString(TempData["SelectedUygulamaAdi"]);
@@ -287,9 +287,6 @@ namespace twotableversion.Controllers
            
                return View();
         }
-
-       
-
 
 
         [HttpPost]
@@ -307,19 +304,13 @@ namespace twotableversion.Controllers
             // You can redirect the user to a specific page or action after canceling the edit.
             // For example, you can redirect them to the index page.
 
-            return RedirectToAction("Index");
+            //return RedirectToAction("Index");
 
 
-            //int takvimId = Convert.ToInt32(TempData["SelectedTakvimId"]);
-            //string selectedUygulamaAdi = Convert.ToString(TempData["SelectedUygulamaAdi"]);
-            //return RedirectToAction("DisplayData", new { selectedTakvimId = takvimId, selectedUygulamaAdi = selectedUygulamaAdi, errorMessage = "" });
+            int takvimId = Convert.ToInt32(TempData["SelectedTakvimId"]);
+            string selectedUygulamaAdi = Convert.ToString(TempData["SelectedUygulamaAdi"]);
+            return RedirectToAction("DisplayData", new { selectedTakvimId = takvimId, selectedUygulamaAdi = selectedUygulamaAdi, errorMessage = "" });
         }
-
-
-
-
-
-
 
         [HttpGet]
         public IActionResult Delete(int id)
@@ -329,7 +320,16 @@ namespace twotableversion.Controllers
                 var existingData = _dbforlastversionContext.Uygulamalars.Find(id);
                 if (existingData != null)
                 {
+                    if (existingData.IsLocked)
+                    {
+                        //ViewBag.ErrorMessage = "Bu kayıt şu anda başka bir kullanıcı tarafından düzenlenmektedir.";
+                        return View("EditError");
+                    }
+
+                    existingData.IsLocked = true;
                     _dbforlastversionContext.Uygulamalars.Remove(existingData);
+                    existingData.IsLocked = false;
+
                     _dbforlastversionContext.SaveChanges();
                     //TempData["DeleteStatus"] = 1;
                 }
