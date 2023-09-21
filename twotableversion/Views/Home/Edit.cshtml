@@ -8,12 +8,14 @@
 
     <input type="hidden" asp-for="RowVersion" />
 
-    <a href="/Home/DisplayData" style="color:#e68a06;  margin-top:30px; margin-left:opx;">GERİ</a>
+   @* <a href="/Home/DisplayData" style="color:#e68a06;  margin-top:30px; margin-left:0px;">GERİ</a>*@
+
+  
 
     <table width="40%">
    
         <tr>
-            <td style=" width:20%">Version:</td>
+            <td style=" width:20%">Versiyon:</td>
             <td style="width:80%">
                 @Html.TextBoxFor(m=>m.version,new{@class="form-control"})
             </td>
@@ -147,8 +149,6 @@
             </td>
         </tr>
 
-
-
         <tr>
             <td style=" width:20%">UI/API Senaryo ID:</td>
             <td style="width:80%">
@@ -159,17 +159,12 @@
     </table>
 
 
-   
-    <button type="submit" class="btn btn-primary" style="background-color: #FFCA4F; color: white; margin-top:0px ; margin-left:0px">Save</button>
+
+    <button type="submit" class="btn btn-primary" style="background-color: #FFCA4F; color: white; margin-top:0px ; margin-left:0px">Kaydet</button>
     <form asp-action="CancelEdit" asp-controller="Home" method="post">
         <input type="hidden" asp-for="satırId" value="@Model.satırId" />
-        <button type="submit" class="btn btn-danger">Cancel Edit</button>
+        <button type="submit" class="btn btn-danger">İptal</button>
     </form>
-
-
-
-
-
 }
 
 

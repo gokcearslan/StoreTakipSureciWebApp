@@ -10,8 +10,6 @@ using Microsoft.AspNetCore.Http;
 using twotableversion.Models;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
-
-
 namespace twotableversion.Controllers
 {
     public class HomeController : Controller
@@ -62,9 +60,9 @@ namespace twotableversion.Controllers
         public IActionResult DisplayData(string selectedTakvimId, string selectedUygulamaAdi, string errorMessage)
 
         {
-            if (string.IsNullOrWhiteSpace(selectedUygulamaAdi)) // Check if the UygulamaAdi is not selected
+            if (string.IsNullOrWhiteSpace(selectedUygulamaAdi)) 
             {
-                return View("ErrorView"); // Return the error view
+                return View("ErrorView"); 
             }
 
             if (int.TryParse(selectedTakvimId, out int takvimId))
@@ -78,7 +76,7 @@ namespace twotableversion.Controllers
 
                 TempData["SelectedTakvimId"] = takvimId;
                 TempData["SelectedUygulamaAdi"] = selectedUygulamaAdi;
-               
+                
                 _dbforlastversionContext.SaveChanges();
 
 
@@ -86,7 +84,7 @@ namespace twotableversion.Controllers
             }
             else
             {
-                return View("ErrorView"); // Return the error view
+                return View("ErrorView"); 
             }
         }
 
@@ -167,11 +165,11 @@ namespace twotableversion.Controllers
             }
             catch (DbUpdateException e)
             {
-                // Handle the exception...
+                
                 TempData["SaveStatus"] = 0;
             }
 
-            return View(uygulamalar); // Return the view with validation errors
+            return View(uygulamalar); 
         }
 
         [HttpGet]
@@ -220,12 +218,11 @@ namespace twotableversion.Controllers
             var existingData = _dbforlastversionContext.Uygulamalars.Find(id);
             if (existingData == null)
             {
-                return NotFound(); // Handle the case when the record is not found
+                return NotFound(); 
             }
 
             if (existingData.IsLocked)
             {
-                //ViewBag.ErrorMessage = "Bu kayıt şu anda başka bir kullanıcı tarafından düzenlenmektedir.";
                 return View("EditError");
             }
 
@@ -233,7 +230,6 @@ namespace twotableversion.Controllers
             _dbforlastversionContext.SaveChanges();
             var uygulamalar = new Models.UygulamalarModel
             {
-                //TakvimId=existingData.TakvimID,
                 UygulamaAdı = existingData.UygulamaAdı,
                 EtkiAlanı = existingData.EtkiAlanı,
                 TalepBug = existingData.TalepBug,
@@ -266,18 +262,9 @@ namespace twotableversion.Controllers
             var existingData = _dbforlastversionContext.Uygulamalars.Find(id);
             if (existingData == null)
             {
-                return NotFound(); // Handle the case when the record is not found
+                return NotFound(); 
             }
-            //if (!existingData.IsLocked)
-            //{
-            // //   The record is not locked by the current user; handle this situation.
-            //    return RedirectToAction("Index", new { errorMessage = "Bu kayıt size kilitleme yapılmadan önce düzenlenmiş olabilir." });
-
-            //}
-
-            // Update the fields with new values
-            //existingData.TakvimID = uygulamalar.TakvimId;
-            //existingData.TakvimID = uygulamalar.TakvimId;
+           
             existingData.EtkiAlanı = uygulamalar.EtkiAlanı;
             existingData.TalepBug = uygulamalar.TalepBug;
             existingData.TalepAdı = uygulamalar.TalepAdi;
@@ -307,7 +294,7 @@ namespace twotableversion.Controllers
 
 
 
-        [HttpGet] // Add the HttpGet attribute
+        [HttpGet] 
         public IActionResult CancelEdit(int id)
         {
            
@@ -321,17 +308,11 @@ namespace twotableversion.Controllers
             var existingData = _dbforlastversionContext.Uygulamalars.Find(id);
             if (existingData == null)
             {
-                return NotFound(); // Handle the case when the record is not found
+                return NotFound(); 
             }
 
             existingData.IsLocked = false;
             _dbforlastversionContext.SaveChanges();
-
-            // You can redirect the user to a specific page or action after canceling the edit.
-            // For example, you can redirect them to the index page.
-
-            //return RedirectToAction("Index");
-
 
             int takvimId = Convert.ToInt32(TempData["SelectedTakvimId"]);
             string selectedUygulamaAdi = Convert.ToString(TempData["SelectedUygulamaAdi"]);
@@ -390,14 +371,14 @@ namespace twotableversion.Controllers
 
                     var worksheet = package.Workbook.Worksheets.Add("Uygulama Data");
 
-                    // headers
+                    
                     var properties = typeof(Uygulamalar).GetProperties();
                     for (int i = 3; i < properties.Length; i++)
                     {
                         worksheet.Cells[1, i + 1].Value = properties[i].Name;
                     }
 
-                    // data
+                    
                     for (int row = 0; row < data.Count; row++)
                     {
                         for (int col = 3; col < properties.Length; col++)
@@ -412,19 +393,26 @@ namespace twotableversion.Controllers
                     var stream = new MemoryStream(package.GetAsByteArray());
                     return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
                 }
+
+               
             }
             else
             {
-                // Handle the case where 'selectedTakvimId' is not a valid integer.
-                // You can return an error message or perform appropriate error handling.
-                return View("ErrorView"); // Replace "ErrorView" with the name of your error view.
+                   return View("ErrorView"); 
             }
+
+        }
+        public IActionResult HelpPage()
+        {
+            
+
+            return View();
         }
 
-     
+
         public IActionResult ResultAction()
         {
-            // Implement the logic to display results or perform actions based on the selected values.
+            
             return View();
         }
 

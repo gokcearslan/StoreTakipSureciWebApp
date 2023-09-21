@@ -65,17 +65,17 @@
                               
             <div class="form-group" style="width:100%; height:100%;">
                 <label for="selectedTakvimId">Ay/Yıl Kodu Seçiniz :</label>                
-                @Html.DropDownList("selectedTakvimId", (SelectList)ViewBag.TakvimIdOptions, "Select", new { @class = "form-control" })
+                @Html.DropDownList("selectedTakvimId", (SelectList)ViewBag.TakvimIdOptions, "Seçiniz", new { @class = "form-control" })
             </div>
 
             <div class="form-group" style="width:100%; height:100%;">
                 <label for="selectedUygulamaAdi">Uygulama Adı Seçiniz:</label>
-                @Html.DropDownList("selectedUygulamaAdi", (SelectList)ViewBag.UygulamaAdiOptions, "Select", new { @class = "form-control" })
+                @Html.DropDownList("selectedUygulamaAdi", (SelectList)ViewBag.UygulamaAdiOptions, "Seçiniz", new { @class = "form-control" })
             </div>
         </div>
     
         <div class="col-md-6">
-            <button type="submit" class="btn btn-primary " style="color: white; background-color: #FFCA4F; margin-top:13px; margin-right:100px;">Submit</button>
+            <button type="submit" class="btn btn-primary " style="color: white; background-color: #FFCA4F; margin-top:13px; margin-right:100px;">Görüntüle</button>
         </div>
     }
 </div>

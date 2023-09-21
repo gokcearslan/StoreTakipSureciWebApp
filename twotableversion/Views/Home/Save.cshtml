@@ -23,18 +23,18 @@
         <span class="alert alert-success">Data saved successfully!</span>
     }
 }
-@*<form method="post" action="/Home/Save">
-*@
+
 @using (Html.BeginForm("Save", "Home", FormMethod.Post))
 {
     <div class="form-group">
         <label for="version">Version:</label>
         @Html.TextBoxFor(m => m.version, new { @class = "form-control" })
     </div>
-    <div class="form-group" >
+    <div class="form-group">
         <label for="UygulamaAdı">Uygulama Adı:</label>
-        @Html.TextBoxFor(m => m.UygulamaAdı, new { @class = "form-control" })
+        @Html.TextBoxFor(m => m.UygulamaAdı, new { @class = "form-control", id = "uygulamaAdiInput" })
     </div>
+
 
     <div class="form-group">
         <label for="TakvimId">Takvim Id:</label>
@@ -62,24 +62,7 @@
         @Html.TextBoxFor(m => m.Segment, new { @class = "form-control" })
     </div>
 
-   @* <div class="form-group">
-        <label for="KKTYeGonderilme">KKTYE Gönderildi mi?:</label>
-        @Html.TextBoxFor(m => m.KKTYeGonderilme, new { @class = "form-control" })
-    </div>
-    <div class="form-group">
-        <label for="KKTOnayi">KKTE Onayı Alındı mı?:</label>
-        @Html.TextBoxFor(m => m.KKTOnayi, new { @class = "form-control" })
-    </div>*@
-
- @*   <div class="form-group">
-        <label for="KKTYeGonderilme">KKTYE Gönderildi mi?:</label>
-        @Html.TextBoxFor(m => m.KKTYeGonderilme, new { @class = "form-control", oninput = "this.value = this.value.toUpperCase();" })
-    </div>
-    <div class="form-group">
-        <label for="KKTOnayi">KKTE Onayı Alındı mı?:</label>
-        @Html.TextBoxFor(m => m.KKTOnayi, new { @class = "form-control", oninput = "this.value = this.value.toUpperCase();" })
-    </div>
-*@
+ 
     <div class="form-group">
         <label for="KKTYeGonderilme">KKTYE Gönderildi mi?:</label>
         <input type="text" id="KKTYeGonderilmeInput" name="KKTYeGonderilme" class="form-control" onblur="validateAndConvertToUpperCase(this)">
@@ -137,7 +120,7 @@
 
     
    
-     <button type="submit" class="btn btn-primary" style="background-color: #FFCA4F; color: white; margin-top:0px ;margin-left:0px" >Save</button>
+     <button type="submit" class="btn btn-primary" style="background-color: #FFCA4F; color: white; margin-top:0px ;margin-left:0px" >Kaydet</button>
 
 
 
@@ -145,15 +128,46 @@
 
 <script>
     function validateAndConvertToUpperCase(inputElement) {
-        // Get the input value and convert it to uppercase
+  
         let inputValue = inputElement.value.trim().toUpperCase();
 
-        // Check if the input is either "EVET" or "HAYIR"
+        
         if (inputValue === "EVET" || inputValue === "HAYIR") {
-            inputElement.value = inputValue; // Set the uppercase value
+            inputElement.value = inputValue; 
         } else {
-            inputElement.value = ""; // Clear the input if it's not valid
+            inputElement.value = ""; 
             alert("Lütfen 'EVET' veya 'HAYIR' yazınız.");
         }
     }
+
+
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var uygulamaAdiInput = document.getElementById('uygulamaAdiInput');
+
+        uygulamaAdiInput.addEventListener('blur', function () {
+            var inputValue = uygulamaAdiInput.value;
+
+            // Split the input value into words
+            var words = inputValue.split(' ');
+
+            // Capitalize the first letter of each word
+            for (var i = 0; i < words.length; i++) {
+                if (words[i].length > 0) {
+                    // Check for the special case "EDH" and capitalize it
+                    if (i === 0 && words[i].toUpperCase() === 'EDH') {
+                        words[i] = 'EDH';
+                    } else {
+                        words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+                    }
+                }
+            }
+
+            // Join the words back together and set as the input's value
+            uygulamaAdiInput.value = words.join(' ');
+        });
+    });
+</script>
+
+
