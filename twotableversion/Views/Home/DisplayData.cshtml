@@ -20,7 +20,11 @@
 }
 
 <a href="/Home/Save" style="color:#e68a06;  margin-top:100px; margin-left:50px;">Yeni Satır Ekle</a>
-<table class="table" style="border-block-color:#FCB000">
+
+
+@*Satırlar arası çizgilerin olduğu hali*@
+
+@*<table class="table" style="border-block-color:#FCB000">
     <thead>
         <tr>
             <th>Version</th>
@@ -77,33 +81,133 @@
 
 
 
-        <script>
-            function refreshPage() {
-                location.reload();
-            }
-            const refreshInterval = 7000; // 10 seconds
+       
+    </tbody>
+</table>*@
 
-            let inactivityTimer;
 
-            document.addEventListener("mousemove", resetTimer);
-            document.addEventListener("keydown", resetTimer);
+@*Satır ve sütunlar arası çizgilerin olduğu hali*@
 
-            function resetTimer() {
-                clearTimeout(inactivityTimer);
-                inactivityTimer = setTimeout(refreshPage, refreshInterval);
-            }
+<table class="table" style="border-block-color:#FCB000; border-collapse: collapse;">
+    <thead>
+        <tr>
+            <th style="border: 1px solid #FFCA4F;">Version</th>
+            <th style="border: 1px solid #FFCA4F;">Etki Alanı</th>
+            <th style="border: 1px solid #FFCA4F;">Talep/Bug</th>
+            <th style="border: 1px solid #FFCA4F;">Talep Adı</th>
+            <th style="border: 1px solid #FFCA4F;">Bulgu Durumu</th>
+            <th style="border: 1px solid #FFCA4F;">Segment</th>
+            <th style="border: 1px solid #FFCA4F;">KKTYE Gönderildi mi?</th>
+            <th style="border: 1px solid #FFCA4F;">KKTE Onayı Alındı mı?</th>
+            <th style="border: 1px solid #FFCA4F;">Notlar</th>
+            <th style="border: 1px solid #FFCA4F;">İlgili Analist</th>
+            <th style="border: 1px solid #FFCA4F;">Merge Durumu IOS</th>
+            <th style="border: 1px solid #FFCA4F;">Merge Durumu AND</th>
+            <th style="border: 1px solid #FFCA4F;">Merge Durumu BE</th>
+            <th style="border: 1px solid #FFCA4F;">İlgili IOS Developer</th>
+            <th style="border: 1px solid #FFCA4F;">İlgili Android Developer</th>
+            <th style="border: 1px solid #FFCA4F;">İlgili BE Developer</th>
+            <th style="border: 1px solid #FFCA4F;">BE Taşıma Katmanları</th>
+            <th style="border: 1px solid #FFCA4F;">Geçiş Zorunluluğu </th>
+            <th style="border: 1px solid #FFCA4F;">UI/API Senaryo ID</th>
+            <th style="border: 1px solid #FFCA4F;">İşlem</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="border: 1px solid #FFCA4F;">@item.Version</td>
+                <td style="border: 1px solid #FFCA4F;">@item.EtkiAlanı</td>
+                <td style="border: 1px solid #FFCA4F;">@item.TalepBug</td>
+                <td style="border: 1px solid #FFCA4F;">@item.TalepAdı</td>
+                <td style="border: 1px solid #FFCA4F;">@item.BulguDurumu</td>
+                <td style="border: 1px solid #FFCA4F;">@item.Segment</td>
+                <td style="border: 1px solid #FFCA4F;">@item.KktyeGönderİldİMİ</td>
+                <td style="border: 1px solid #FFCA4F;">@item.KktOnayiAlindiMi</td>
+                <td style="border: 1px solid #FFCA4F;">@item.Notlar</td>
+                <td style="border: 1px solid #FFCA4F;">@item.İlgiliAnalist</td>
+                <td style="border: 1px solid #FFCA4F;">@item.MergeDurumuIos</td>
+                <td style="border: 1px solid #FFCA4F;">@item.MergeDurumuAnd</td>
+                <td style="border: 1px solid #FFCA4F;">@item.MergeDurumuBe</td>
+                <td style="border: 1px solid #FFCA4F;">@item.İlgiliIosDeveloper</td>
+                <td style="border: 1px solid #FFCA4F;">@item.İlgiliAndroidDeveloper</td>
+                <td style="border: 1px solid #FFCA4F;">@item.İlgiliBeDeveloper</td>
+                <td style="border: 1px solid #FFCA4F;">@item.BeTaşımaKatmanları</td>
+                <td style="border: 1px solid #FFCA4F;">@item.GeçİşZorunluluğu</td>
+                <td style="border: 1px solid #FFCA4F;">@item.UiApiSenaryoId</td>
+                <td style="border: 1px solid #FFCA4F;">
+                    <a href="/Home/Edit/@item.satırID" style="color:#e68a06">Düzenle</a>&nbsp;|&nbsp;
+                    <a href="#" style="color:#e68a06" onclick="showModal(); document.getElementById('confirmDelete').href='/Home/Delete/@item.satırID'">Sil</a>
+                </td>
+            </tr>
+        }
 
-            resetTimer();
-        </script>
+
+
+
     </tbody>
 </table>
+
+@*<div class="grid-pane">
+    <div class="grid-row grid-header">
+        <div class="grid-cell">Version</div>
+        <div class="grid-cell">Etki Alanı</div>
+        <div class="grid-cell">Talep/Bug</div>
+        <div class="grid-cell">Talep Adı</div>
+        <div class="grid-cell">Bulgu Durumu</div>
+        <div class="grid-cell">Segment</div>
+        <div class="grid-cell">KKTYE Gönderildi mi?</div>
+        <div class="grid-cell">KKTE Onayı Alındı mı?</div>
+        <div class="grid-cell">Notlar</div>
+        <div class="grid-cell">İlgili Analist</div>
+        <div class="grid-cell">Merge Durumu IOS</div>
+        <div class="grid-cell">Merge Durumu AND</div>
+        <div class="grid-cell">Merge Durumu BE</div>
+        <div class="grid-cell">İlgili IOS Developer</div>
+        <div class="grid-cell">İlgili Android Developer</div>
+        <div class="grid-cell">İlgili BE Developer</div>
+        <div class="grid-cell">BE Taşıma Katmanları</div>
+        <div class="grid-cell">Geçiş Zorunluluğu</div>
+        <div class="grid-cell">UI/API Senaryo ID</div>
+        <div class="grid-cell">İşlem</div>
+    </div>
+    @foreach (var item in Model)
+    {
+        <div class="grid-row">
+            <div class="grid-cell">@item.Version</div>
+            <div class="grid-cell">@item.EtkiAlanı</div>
+            <div class="grid-cell">@item.TalepBug</div>
+            <div class="grid-cell">@item.TalepAdı</div>
+            <div class="grid-cell">@item.BulguDurumu</div>
+            <div class="grid-cell">@item.Segment</div>
+            <div class="grid-cell">@item.KktyeGönderİldİMİ</div>
+            <div class="grid-cell">@item.KktOnayiAlindiMi</div>
+            <div class="grid-cell">@item.Notlar</div>
+            <div class="grid-cell">@item.İlgiliAnalist</div>
+            <div class="grid-cell">@item.MergeDurumuIos</div>
+            <div class="grid-cell">@item.MergeDurumuAnd</div>
+            <div class="grid-cell">@item.MergeDurumuBe</div>
+            <div class="grid-cell">@item.İlgiliIosDeveloper</div>
+            <div class="grid-cell">@item.İlgiliAndroidDeveloper</div>
+            <div class="grid-cell">@item.İlgiliBeDeveloper</div>
+            <div class="grid-cell">@item.BeTaşımaKatmanları</div>
+            <div class="grid-cell">@item.GeçİşZorunluluğu</div>
+            <div class="grid-cell">@item.UiApiSenaryoId</div>
+            <div class="grid-cell">
+                <a href="/Home/Edit/@item.satırID" style="color:#e68a06">Düzenle</a>&nbsp;|&nbsp;
+                <a href="#" style="color:#e68a06" onclick="showModal(); document.getElementById('confirmDelete').href='/Home/Delete/@item.satırID'">Sil</a>
+            </div>
+        </div>
+    }
+</div>*@
 
 <script>
     function searchInTable() {
         var searchText = document.getElementById("searchInput").value.toLowerCase();
         var rows = document.getElementsByTagName("tr");
 
-        for (var i = 1; i < rows.length; i++) { // Start from 1 to skip the table header row
+        for (var i = 1; i < rows.length; i++) { 
             var row = rows[i];
             var cells = row.getElementsByTagName("td");
             var found = false;
@@ -135,12 +239,13 @@
 <div id="deleteModal" class="modal">
     <div class="modal-content center">
         <span class="close" onclick="closeModal()">&times;</span>
-        <h2 style="color:red">Silme işemine devam etmek istiyor musunuz?</h2>
+        <h2 style="color:red">Silme işlemine devam etmek istiyor musunuz?</h2>
       
         <div class="button-container" >
             <a href="#" class="delete-button" style=" color:#e68a06" id="confirmDelete">Evet</a>
             <a href="#" class="cancel-button" style="color:#e68a06" onclick="closeModal()">Hayır</a>
         </div>
+
     </div>
 </div>
 
@@ -199,7 +304,7 @@
 </style>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
+@*<script>
     $(document).ready(function () {
         $(".mark-favorite").click(function () {
             var itemId = $(this).data("id");
@@ -213,7 +318,7 @@
             });
         });
     });
-</script>
+</script>*@
 
 
 <script>
@@ -230,3 +335,21 @@
 
 
 
+<script>
+    function refreshPage() {
+        location.reload();
+    }
+    const refreshInterval = 7000; // 10 seconds
+
+    let inactivityTimer;
+
+    document.addEventListener("mousemove", resetTimer);
+    document.addEventListener("keydown", resetTimer);
+
+    function resetTimer() {
+        clearTimeout(inactivityTimer);
+        inactivityTimer = setTimeout(refreshPage, refreshInterval);
+    }
+
+    resetTimer();
+</script>

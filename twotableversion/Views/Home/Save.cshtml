@@ -63,14 +63,37 @@
     </div>
 
  
-    <div class="form-group">
+   @* <div class="form-group">
         <label for="KKTYeGonderilme">KKTYE Gönderildi mi?:</label>
         <input type="text" id="KKTYeGonderilmeInput" name="KKTYeGonderilme" class="form-control" onblur="validateAndConvertToUpperCase(this)">
     </div>
     <div class="form-group">
         <label for="KKTOnayi">KKTE Onayı Alındı mı?:</label>
         <input type="text" id="KKTOnayiInput" name="KKTOnayi" class="form-control" onblur="validateAndConvertToUpperCase(this)">
-    </div>
+    </div>*@
+
+    <tr>
+        <td style="width:20%">KKTYE Gönderildi mi?:</td>
+        <td style="width:80%">
+            <select name="KKTYeGonderilme" style="width: 100%;" id="kktyeGonderildiSelect">
+                <option value=" " ;"></option>
+                <option value="EVET" style="background-color:green;">EVET</option>
+                <option value="HAYIR" style="background-color:red;">HAYIR</option>
+
+            </select>
+        </td>
+    </tr>
+
+    <tr>
+        <td style="width:20%">KKT Onayı Alındı mı:</td>
+        <td style="width:80%">
+            <select name="KKTOnayi" style="width: 100%;" id="kktOnayiSelect">
+                <option value=" " ;"></option>
+                <option value="EVET" style="background-color:green;">EVET</option>
+                <option value="HAYIR" style="background-color:red;">HAYIR</option>
+            </select>
+        </td>
+    </tr>
 
     <div class="form-group">
         <label for="Notlar">Notlar:</label>
@@ -170,4 +193,25 @@
     });
 </script>
 
+<script>
+    // JavaScript function to update the background color of the select boxes
+    function updateSelectBackgroundColor(selectId) {
+        const select = document.getElementById(selectId);
+        const selectedOption = select.options[select.selectedIndex];
+        const backgroundColor = window.getComputedStyle(selectedOption).backgroundColor;
+        select.style.backgroundColor = backgroundColor;
+    }
 
+    // Listen to the change event for each select element
+    document.getElementById("kktyeGonderildiSelect").addEventListener("change", function () {
+        updateSelectBackgroundColor("kktyeGonderildiSelect");
+    });
+
+    document.getElementById("kktOnayiSelect").addEventListener("change", function () {
+        updateSelectBackgroundColor("kktOnayiSelect");
+    });
+
+    // Initially set the background color based on the selected options
+    updateSelectBackgroundColor("kktyeGonderildiSelect");
+    updateSelectBackgroundColor("kktOnayiSelect");
+</script>

@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using System.Diagnostics;
 using twotableversion.Data;
-using Microsoft.AspNetCore.Http;
 using twotableversion.Models;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -27,7 +25,7 @@ namespace twotableversion.Controllers
 
         public IActionResult Index()
         {
-            // Retrieve distinct values for TakvimId and UygulamaAdi columns from the database
+            // from the database
             var takvimIdOptions = _dbforlastversionContext.Uygulamalars
                 .Select(row => row.TakvimId)
                 .Distinct()
@@ -42,15 +40,13 @@ namespace twotableversion.Controllers
             ViewBag.TakvimIdOptions = new SelectList(takvimIdOptions);
             ViewBag.UygulamaAdiOptions = new SelectList(uygulamaAdiOptions);
 
-
             return View();
         }
 
         [HttpGet]
         public IActionResult DisplayData()
-
         {
-            UnlockLockedData();
+           // UnlockLockedData();
             int takvimId = Convert.ToInt32(TempData["SelectedTakvimId"]);
             string selectedUygulamaAdi = Convert.ToString(TempData["SelectedUygulamaAdi"]);
             return DisplayData(Convert.ToString(takvimId), selectedUygulamaAdi, "");
@@ -58,7 +54,6 @@ namespace twotableversion.Controllers
 
         [HttpPost]
         public IActionResult DisplayData(string selectedTakvimId, string selectedUygulamaAdi, string errorMessage)
-
         {
             if (string.IsNullOrWhiteSpace(selectedUygulamaAdi)) 
             {
@@ -92,26 +87,20 @@ namespace twotableversion.Controllers
 
         private void UnlockLockedData()
         {
-            // Query and identify locked data
             var lockedData = _dbforlastversionContext.Uygulamalars.Where(row => row.IsLocked).ToList();
 
-            // Unlock the identified locked data
             foreach (var item in lockedData)
             {
                 item.IsLocked = false;
             }
-
-            // Save changes to the database
+                     
             _dbforlastversionContext.SaveChanges();
         }
-
-
 
 
         [HttpGet]
         public IActionResult Save()
         {
-
             return View();
         }
 
@@ -127,7 +116,6 @@ namespace twotableversion.Controllers
                     {
                         var newUygulama = new Uygulamalar
                         {
-
                             TakvimId = uygulamalar.TakvimId,
                             UygulamaAdı = uygulamalar.UygulamaAdı,
                             EtkiAlanı = uygulamalar.EtkiAlanı,
@@ -297,8 +285,7 @@ namespace twotableversion.Controllers
         [HttpGet] 
         public IActionResult CancelEdit(int id)
         {
-           
-               return View();
+            return View();
         }
 
 
@@ -403,16 +390,11 @@ namespace twotableversion.Controllers
 
         }
         public IActionResult HelpPage()
-        {
-            
-
+        {            
             return View();
         }
-
-
         public IActionResult ResultAction()
-        {
-            
+        {      
             return View();
         }
 
